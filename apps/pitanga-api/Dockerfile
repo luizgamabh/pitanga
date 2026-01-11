@@ -12,8 +12,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the API
-RUN npx nx build pitanga-api --configuration=production
+# Build the API (--skip-sync for non-interactive CI environments)
+RUN npx nx sync && npx nx build pitanga-api --configuration=production
 
 # Production stage
 FROM node:22-alpine AS runner

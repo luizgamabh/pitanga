@@ -12,8 +12,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the Next.js app
-RUN npx nx build pitanga --configuration=production
+# Build the Next.js app (nx sync for CI environments)
+RUN npx nx sync && npx nx build pitanga --configuration=production
 
 # Production stage
 FROM node:22-alpine AS runner
