@@ -3,6 +3,22 @@
 @theme {
   --font-sans: 'Inter', sans-serif;
   --font-sans--font-feature-settings: 'cv11';
-  --color-primary: oklch(0.6 0.2 250);
-  --color-secondary: oklch(0.7 0.15 180);
+
+  /* Paleta Pitanga - Vermelho/Rosa/Coral */
+  --color-pitanga-50: #ffffff;
+  --color-pitanga-100: #fef4f3;
+  --color-pitanga-200: #fac7c4;
+  --color-pitanga-300: #f69a95;
+  --color-pitanga-400: #f26d66;
+  --color-pitanga-500: #ee3f38;
+  --color-pitanga-600: #e01a13;
+  --color-pitanga-700: #b0140f;
+  --color-pitanga-800: #810e0b;
+  --color-pitanga-900: #520907;
+  --color-pitanga-950: #3b0605;
+
+  /* Aliases */
+  --color-primary: var(--color-pitanga-500);
+  --color-primary-hover: var(--color-pitanga-400);
+  --color-primary-dark: var(--color-pitanga-600);
 }

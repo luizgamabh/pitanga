@@ -103,6 +103,10 @@ const styles = {
       'text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-orange-500)] [--btn-border:var(--color-orange-600)]/90',
       '[--btn-icon:var(--color-orange-300)] data-active:[--btn-icon:var(--color-orange-200)] data-hover:[--btn-icon:var(--color-orange-200)]',
     ],
+    pitanga: [
+      'text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-pitanga-500)] [--btn-border:var(--color-pitanga-600)]/90',
+      '[--btn-icon:var(--color-pitanga-300)] data-active:[--btn-icon:var(--color-pitanga-200)] data-hover:[--btn-icon:var(--color-pitanga-200)]',
+    ],
     amber: [
       'text-amber-950 [--btn-hover-overlay:var(--color-white)]/25 [--btn-bg:var(--color-amber-400)] [--btn-border:var(--color-amber-500)]/80',
       '[--btn-icon:var(--color-amber-600)]',

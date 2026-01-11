@@ -1,0 +1,12 @@
+export { Header } from './Header';
+export { Hero } from './Hero';
+export { HowItWorks } from './HowItWorks';
+export { Benefits } from './Benefits';
+export { Segments } from './Segments';
+export { Reliability } from './Reliability';
+export { SocialProof } from './SocialProof';
+export { Simulator } from './Simulator';
+export { FAQ } from './FAQ';
+export { Pricing } from './Pricing';
+export { FinalCTA } from './FinalCTA';
+export { Footer } from './Footer';
