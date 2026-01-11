@@ -17,7 +17,7 @@ export default function Index() {
         >
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">pitanga.digital</span>
+              <span className="sr-only">pitanga.digital!</span>
               <img
                 alt=""
                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
