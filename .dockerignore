@@ -1,0 +1,42 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+.next
+out
+out-tsc
+tmp
+
+# Nx cache
+.nx
+
+# Test outputs
+test-output
+coverage
+
+# IDE
+.idea
+.vscode
+*.sublime-workspace
+
+# Git
+.git
+.gitignore
+
+# Docker
+**/Dockerfile
+**/.dockerignore
+
+# Documentation
+*.md
+!README.md
+
+# E2E apps (not needed for production builds)
+apps/*-e2e
+
+# Misc
+.DS_Store
+Thumbs.db
+npm-debug.log
+yarn-error.log
