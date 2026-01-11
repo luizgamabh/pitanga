@@ -202,3 +202,63 @@ dokku ps:report pitanga-api
 # Limitar recursos (opcional)
 dokku resource:limit --memory 512m pitanga-api
 ```
+
+## CI/CD com GitHub Actions
+
+O projeto está configurado com deploy automático via GitHub Actions. O workflow detecta automaticamente quais apps foram afetadas e faz deploy apenas delas.
+
+### Fluxo de Deploy
+
+```mermaid
+flowchart TD
+    A[Push para master/main] --> B[Detectar apps afetadas]
+    B --> C{pitanga-api afetada?}
+    B --> D{pitanga afetada?}
+    C -->|Sim| E[Deploy API]
+    C -->|Não| F[Skip API]
+    D -->|Sim| G[Deploy Web]
+    D -->|Não| H[Skip Web]
+    E --> I[Summary]
+    F --> I
+    G --> I
+    H --> I
+```
+
+### Configurar GitHub Secrets
+
+Acesse: `https://github.com/luizgamabh/pitanga/settings/secrets/actions`
+
+Adicione os seguintes secrets:
+
+| Secret | Descrição | Exemplo |
+|--------|-----------|---------|
+| `DOKKU_HOST` | IP do servidor Dokku | `72.61.40.182` |
+| `DOKKU_SSH_PRIVATE_KEY` | Chave SSH privada para acesso ao servidor | Conteúdo de `~/.ssh/id_rsa` |
+
+### Obter a chave SSH privada
+
+```bash
+# Exibir a chave privada
+cat ~/.ssh/id_rsa
+```
+
+Copie **todo o conteúdo** (incluindo as linhas `-----BEGIN/END ... PRIVATE KEY-----`) e cole no secret `DOKKU_SSH_PRIVATE_KEY`.
+
+### Como funciona
+
+1. **Push para `master` ou `main`** → Dispara o workflow
+2. **Detecção de mudanças** → Usa `nx affected` para identificar apps modificadas
+3. **Deploy seletivo** → Apenas as apps afetadas são deployadas
+4. **Summary** → Relatório do que foi deployado
+
+### Deploy manual vs automático
+
+| Método | Comando | Quando usar |
+|--------|---------|-------------|
+| Automático | Push para master/main | Fluxo normal de desenvolvimento |
+| Manual (API) | `git push dokku-api master` | Hotfix ou debug |
+| Manual (Web) | `git push dokku-web master` | Hotfix ou debug |
+
+### Verificar status do workflow
+
+Acesse: `https://github.com/luizgamabh/pitanga/actions`

@@ -1,0 +1,129 @@
+name: Deploy to Dokku
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+env:
+  DOKKU_HOST: ${{ secrets.DOKKU_HOST }}
+  NODE_VERSION: '22'
+
+jobs:
+  detect-changes:
+    name: Detect affected apps
+    runs-on: ubuntu-latest
+    outputs:
+      api-affected: ${{ steps.affected.outputs.api }}
+      web-affected: ${{ steps.affected.outputs.web }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect affected projects
+        id: affected
+        run: |
+          # Get affected projects
+          AFFECTED=$(npx nx show projects --affected --base=HEAD~1 --head=HEAD 2>/dev/null || echo "")
+
+          echo "Affected projects: $AFFECTED"
+
+          # Check if specific apps are affected
+          if echo "$AFFECTED" | grep -q "pitanga-api"; then
+            echo "api=true" >> $GITHUB_OUTPUT
+          else
+            echo "api=false" >> $GITHUB_OUTPUT
+          fi
+
+          if echo "$AFFECTED" | grep -q "^pitanga$"; then
+            echo "web=true" >> $GITHUB_OUTPUT
+          else
+            echo "web=false" >> $GITHUB_OUTPUT
+          fi
+
+  deploy-api:
+    name: Deploy API
+    needs: detect-changes
+    if: needs.detect-changes.outputs.api-affected == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DOKKU_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.DOKKU_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Dokku
+        run: |
+          git remote add dokku dokku@${{ secrets.DOKKU_HOST }}:pitanga-api
+          git push dokku HEAD:refs/heads/main --force
+
+      - name: Deployment summary
+        run: echo "✅ API deployed to https://api.pitanga.digital"
+
+  deploy-web:
+    name: Deploy Web
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web-affected == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DOKKU_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.DOKKU_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Dokku
+        run: |
+          git remote add dokku dokku@${{ secrets.DOKKU_HOST }}:pitanga-web
+          git push dokku HEAD:refs/heads/main --force
+
+      - name: Deployment summary
+        run: echo "✅ Web deployed to https://pitanga.digital"
+
+  summary:
+    name: Deployment Summary
+    needs: [detect-changes, deploy-api, deploy-web]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.detect-changes.outputs.api-affected }}" == "true" ]; then
+            echo "- ✅ **API**: Deployed to https://api.pitanga.digital" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ⏭️ **API**: No changes detected, skipped" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.detect-changes.outputs.web-affected }}" == "true" ]; then
+            echo "- ✅ **Web**: Deployed to https://pitanga.digital" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ⏭️ **Web**: No changes detected, skipped" >> $GITHUB_STEP_SUMMARY
+          fi
