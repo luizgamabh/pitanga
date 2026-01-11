@@ -1,7 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Custom theme variables can be added here */
+  --font-sans: 'Inter', sans-serif;
+  --font-sans--font-feature-settings: 'cv11';
   --color-primary: oklch(0.6 0.2 250);
   --color-secondary: oklch(0.7 0.15 180);
 }
