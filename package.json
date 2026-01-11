@@ -9,20 +9,17 @@
     "lint": "nx run-many -t lint",
     "e2e": "nx run-many -t e2e",
     "typecheck": "nx run-many -t typecheck",
-
     "api:dev": "nx serve pitanga-api",
     "api:build": "nx build pitanga-api",
     "api:test": "nx test pitanga-api",
     "api:lint": "nx lint pitanga-api",
     "api:e2e": "nx e2e pitanga-api-e2e",
-
     "web:dev": "nx dev pitanga",
     "web:build": "nx build pitanga",
     "web:start": "nx start pitanga",
     "web:test": "nx test pitanga",
     "web:lint": "nx lint pitanga",
     "web:e2e": "nx e2e pitanga-e2e",
-
     "graph": "nx graph",
     "affected": "nx affected",
     "affected:build": "nx affected -t build",
@@ -36,12 +33,15 @@
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.6.0",
     "next": "~16.0.1",
+    "postcss": "^8.5.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
