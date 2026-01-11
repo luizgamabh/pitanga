@@ -29,11 +29,13 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copy public assets
-COPY --from=builder /app/apps/pitanga/public ./public
-
 # Copy standalone build
 COPY --from=builder --chown=nextjs:nodejs /app/apps/pitanga/.next/standalone ./
+
+# Copy public assets (must be relative to server.js location)
+COPY --from=builder --chown=nextjs:nodejs /app/apps/pitanga/public ./apps/pitanga/public
+
+# Copy static files
 COPY --from=builder --chown=nextjs:nodejs /app/apps/pitanga/.next/static ./apps/pitanga/.next/static
 
 USER nextjs
