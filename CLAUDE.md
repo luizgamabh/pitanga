@@ -90,6 +90,36 @@ This is an Nx monorepo with two main applications:
 - Web (Next.js): 3000
 - API (NestJS): 3333
 
+## Databases
+
+The API uses two databases:
+- **PostgreSQL** (via Prisma) - Relational data (users, screens, playlists, media)
+- **MongoDB** (via Mongoose) - Analytics and logs (events, playbacks, metrics)
+
+### Prisma Commands
+```bash
+# Generate Prisma client after schema changes
+cd apps/pitanga-api && npx prisma generate
+
+# Create migration
+cd apps/pitanga-api && npx prisma migrate dev --name migration_name
+
+# Apply migrations in production
+cd apps/pitanga-api && npx prisma migrate deploy
+
+# Open Prisma Studio (database GUI)
+cd apps/pitanga-api && npx prisma studio
+```
+
+### Environment Variables
+```bash
+# PostgreSQL (set by Dokku when linked)
+DATABASE_URL="postgresql://user:password@host:5432/database?schema=public"
+
+# MongoDB (set by Dokku when linked)
+MONGODB_URL="mongodb://user:password@host:27017/database"
+```
+
 ## Deployment
 
 Hosted on Hostinger VPS with Dokku. Each app has its own Dockerfile for production builds.
@@ -97,6 +127,37 @@ Hosted on Hostinger VPS with Dokku. Each app has its own Dockerfile for producti
 ### Production URLs
 - **Web**: https://pitanga.digital
 - **API**: https://api.pitanga.digital
+
+### Dokku Database Setup
+```bash
+# SSH into server
+ssh dokku@your-server
+
+# Create PostgreSQL database
+dokku postgres:create pitanga-db
+
+# Link PostgreSQL to API (sets DATABASE_URL automatically)
+dokku postgres:link pitanga-db pitanga-api
+
+# Create MongoDB database
+dokku mongo:create pitanga-mongo
+
+# Link MongoDB to API (sets MONGO_URL automatically)
+dokku mongo:link pitanga-mongo pitanga-api
+
+# View linked databases
+dokku postgres:info pitanga-db
+dokku mongo:info pitanga-mongo
+
+# Check environment variables
+dokku config:show pitanga-api
+```
+
+### Running Migrations in Production
+```bash
+# After deploy, run migrations
+dokku run pitanga-api npx prisma migrate deploy
+```
 
 ### Docker Build (local test)
 ```bash

@@ -1,0 +1,113 @@
+// PostgreSQL Schema - Dados relacionais
+// Documentacao: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// Modelos de exemplo - customize conforme necessario
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  screens   Screen[]
+  playlists Playlist[]
+
+  @@map("users")
+}
+
+model Screen {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  status      ScreenStatus @default(OFFLINE)
+  lastPing    DateTime?    @map("last_ping")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  userId     String    @map("user_id")
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playlistId String?   @map("playlist_id")
+  playlist   Playlist? @relation(fields: [playlistId], references: [id])
+
+  @@map("screens")
+}
+
+model Playlist {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  userId  String         @map("user_id")
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items   PlaylistItem[]
+  screens Screen[]
+
+  @@map("playlists")
+}
+
+model PlaylistItem {
+  id       String @id @default(cuid())
+  order    Int
+  duration Int    @default(10) // segundos
+
+  // Relacionamentos
+  playlistId String   @map("playlist_id")
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  mediaId    String   @map("media_id")
+  media      Media    @relation(fields: [mediaId], references: [id])
+
+  @@map("playlist_items")
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  name      String
+  type      MediaType
+  url       String
+  thumbnail String?
+  size      Int?      // bytes
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  // Relacionamentos
+  items PlaylistItem[]
+
+  @@map("media")
+}
+
+// ============================================
+// Enums
+// ============================================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ScreenStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  WEBPAGE
+}

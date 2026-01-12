@@ -41,7 +41,13 @@ export function HowItWorks() {
         </div>
 
         <div className="mx-auto mt-16 max-w-5xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3">
+            {/* Single connector line spanning center to center */}
+            <div
+              className="hidden md:block absolute top-12 h-0.5 z-0 bg-pitanga-500"
+              style={{ left: '16.667%', right: '16.667%' }}
+            />
+
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
@@ -49,16 +55,11 @@ export function HowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative"
+                className="relative z-10"
               >
-                {/* Connector line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-pitanga-200 to-pitanga-100 dark:from-pitanga-800 dark:to-pitanga-900" />
-                )}
-
                 <div className="relative flex flex-col items-center text-center">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-pitanga-50 dark:bg-pitanga-900/30 ring-1 ring-pitanga-100 dark:ring-pitanga-800">
-                    <step.icon className="h-10 w-10 text-pitanga-600 dark:text-pitanga-400" />
+                  <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gray-900 ring-2 ring-pitanga-500">
+                    <step.icon className="h-10 w-10 text-pitanga-400 dark:text-pitanga-400" />
                   </div>
                   <span className="mt-4 text-sm font-semibold text-pitanga-600 dark:text-pitanga-400">
                     {step.number}

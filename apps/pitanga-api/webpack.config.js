@@ -9,17 +9,21 @@ module.exports = {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
+  // Externalize Prisma - it uses native binaries that can't be bundled
+  externals: {
+    '@prisma/client': 'commonjs @prisma/client',
+  },
   plugins: [
     new NxAppWebpackPlugin({
       target: 'node',
       compiler: 'tsc',
       main: './src/main.ts',
       tsConfig: './tsconfig.app.json',
-      assets: ["./src/assets"],
+      assets: ['./src/assets'],
       optimization: false,
       outputHashing: 'none',
       generatePackageJson: true,
       sourceMap: true,
-    })
+    }),
   ],
 };
