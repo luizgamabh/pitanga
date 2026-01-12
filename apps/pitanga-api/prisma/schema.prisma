@@ -82,7 +82,7 @@ model Media {
   type      MediaType
   url       String
   thumbnail String?
-  size      Int?      // bytes
+  size      Int? // bytes
   createdAt DateTime  @default(now()) @map("created_at")
 
   // Relacionamentos

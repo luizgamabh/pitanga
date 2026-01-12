@@ -96,29 +96,64 @@ The API uses two databases:
 - **PostgreSQL** (via Prisma) - Relational data (users, screens, playlists, media)
 - **MongoDB** (via Mongoose) - Analytics and logs (events, playbacks, metrics)
 
-### Prisma Commands
+### Database Commands (npm scripts)
 ```bash
-# Generate Prisma client after schema changes
-cd apps/pitanga-api && npx prisma generate
+# Generate Prisma client (run after schema changes)
+npm run db:generate
 
-# Create migration
-cd apps/pitanga-api && npx prisma migrate dev --name migration_name
+# Create a new migration (development)
+npm run db:migrate
 
-# Apply migrations in production
-cd apps/pitanga-api && npx prisma migrate deploy
+# Apply pending migrations (production)
+npm run db:migrate:deploy
+
+# Push schema changes without migration (prototype/dev only)
+npm run db:push
 
 # Open Prisma Studio (database GUI)
-cd apps/pitanga-api && npx prisma studio
+npm run db:studio
+
+# Reset database (WARNING: deletes all data)
+npm run db:reset
 ```
+
+### Prisma Workflow
+
+1. **First time setup:**
+   ```bash
+   # Configure .env with your database URL
+   cp apps/pitanga-api/.env.example apps/pitanga-api/.env
+   # Edit .env with your credentials
+
+   # Generate client and create tables
+   npm run db:generate
+   npm run db:migrate
+   ```
+
+2. **After schema changes:**
+   ```bash
+   # Edit apps/pitanga-api/prisma/schema.prisma
+   npm run db:migrate    # Creates migration and applies it
+   ```
+
+3. **Production deployment:**
+   ```bash
+   # Migrations are applied via Dokku
+   dokku run pitanga-api npx prisma migrate deploy
+   ```
 
 ### Environment Variables
 ```bash
-# PostgreSQL (set by Dokku when linked)
-DATABASE_URL="postgresql://user:password@host:5432/database?schema=public"
+# PostgreSQL - configure in apps/pitanga-api/.env
+DATABASE_URL="postgresql://user:password@localhost:5432/pitanga_db?schema=public"
 
-# MongoDB (set by Dokku when linked)
-MONGODB_URL="mongodb://user:password@host:27017/database"
+# MongoDB - configure in apps/pitanga-api/.env
+MONGODB_URL="mongodb://user:password@localhost:27017/pitanga_db?authSource=pitanga_db"
 ```
+
+### Schema Location
+- **Prisma schema:** `apps/pitanga-api/prisma/schema.prisma`
+- **Mongoose schemas:** `apps/pitanga-api/src/database/schemas/`
 
 ## Deployment
 

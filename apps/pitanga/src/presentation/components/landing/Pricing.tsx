@@ -11,7 +11,6 @@ const plans = [
     price: '97',
     period: '/mês por tela',
     features: [
-      'Dispositivo incluso (comodato)',
       'Painel de gestão completo',
       'Templates profissionais',
       'Suporte por chat',
@@ -67,6 +66,9 @@ export function Pricing() {
           </p>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
             Escolha o plano ideal para o tamanho do seu negócio. Sem surpresas, sem taxas escondidas.
+          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            Valores para contrato anual. Hardware vendido separadamente.
           </p>
         </div>
 
@@ -176,7 +178,9 @@ export function Pricing() {
           className="mt-12 text-center"
         >
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Todos os planos incluem: ativação sem custo adicional, garantia do dispositivo e suporte técnico.
+            Todos os planos incluem: ativação sem custo adicional e suporte técnico.
+            <br />
+            Consulte condições para contrato mensal e opções de hardware.
           </p>
         </motion.div>
       </div>
