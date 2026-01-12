@@ -83,14 +83,37 @@ jobs:
       - name: Add Dokku host to known_hosts
         env:
           DOKKU_HOST: ${{ secrets.DOKKU_HOST }}
+          DOKKU_SSH_PORT: ${{ secrets.DOKKU_SSH_PORT }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H "$DOKKU_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 700 ~/.ssh
+
+          # Use custom port if specified, otherwise default to 22
+          SSH_PORT="${DOKKU_SSH_PORT:-22}"
+
+          echo "Scanning host: $DOKKU_HOST on port $SSH_PORT"
+          ssh-keyscan -p "$SSH_PORT" -H "$DOKKU_HOST" >> ~/.ssh/known_hosts || {
+            echo "::error::Failed to scan SSH host keys from $DOKKU_HOST:$SSH_PORT"
+            echo "Please verify:"
+            echo "  1. DOKKU_HOST secret contains only the hostname (not host:port)"
+            echo "  2. If using non-standard port, set DOKKU_SSH_PORT secret"
+            echo "  3. The host is reachable from GitHub Actions"
+            exit 1
+          }
 
       - name: Deploy to Dokku
         env:
           DOKKU_HOST: ${{ secrets.DOKKU_HOST }}
+          DOKKU_SSH_PORT: ${{ secrets.DOKKU_SSH_PORT }}
         run: |
+          SSH_PORT="${DOKKU_SSH_PORT:-22}"
+
+          # Configure SSH to use custom port if needed
+          if [ "$SSH_PORT" != "22" ]; then
+            echo "Host $DOKKU_HOST" >> ~/.ssh/config
+            echo "  Port $SSH_PORT" >> ~/.ssh/config
+          fi
+
           git remote add dokku "dokku@${DOKKU_HOST}:pitanga-api"
           git push dokku HEAD:refs/heads/main --force
 
@@ -128,14 +151,37 @@ jobs:
       - name: Add Dokku host to known_hosts
         env:
           DOKKU_HOST: ${{ secrets.DOKKU_HOST }}
+          DOKKU_SSH_PORT: ${{ secrets.DOKKU_SSH_PORT }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H "$DOKKU_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 700 ~/.ssh
+
+          # Use custom port if specified, otherwise default to 22
+          SSH_PORT="${DOKKU_SSH_PORT:-22}"
+
+          echo "Scanning host: $DOKKU_HOST on port $SSH_PORT"
+          ssh-keyscan -p "$SSH_PORT" -H "$DOKKU_HOST" >> ~/.ssh/known_hosts || {
+            echo "::error::Failed to scan SSH host keys from $DOKKU_HOST:$SSH_PORT"
+            echo "Please verify:"
+            echo "  1. DOKKU_HOST secret contains only the hostname (not host:port)"
+            echo "  2. If using non-standard port, set DOKKU_SSH_PORT secret"
+            echo "  3. The host is reachable from GitHub Actions"
+            exit 1
+          }
 
       - name: Deploy to Dokku
         env:
           DOKKU_HOST: ${{ secrets.DOKKU_HOST }}
+          DOKKU_SSH_PORT: ${{ secrets.DOKKU_SSH_PORT }}
         run: |
+          SSH_PORT="${DOKKU_SSH_PORT:-22}"
+
+          # Configure SSH to use custom port if needed
+          if [ "$SSH_PORT" != "22" ]; then
+            echo "Host $DOKKU_HOST" >> ~/.ssh/config
+            echo "  Port $SSH_PORT" >> ~/.ssh/config
+          fi
+
           git remote add dokku "dokku@${DOKKU_HOST}:pitanga-web"
           git push dokku HEAD:refs/heads/main --force
 
