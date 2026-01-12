@@ -16,6 +16,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@pitanga/source"]
+    "customConditions": ["@pitanga/source"],
+    "baseUrl": ".",
+    "paths": {
+      "@pitanga/auth-types": ["libs/auth-types/src/index.ts"],
+      "@pitanga/api-client": ["libs/api-client/src/index.ts"]
+    }
   }
 }

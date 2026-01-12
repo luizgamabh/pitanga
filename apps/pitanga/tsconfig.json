@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@pitanga/auth-types": ["../../libs/auth-types/src/index.ts"],
+      "@pitanga/api-client": ["../../libs/api-client/src/index.ts"]
     },
     "types": ["jest", "node"],
     "outDir": "dist",
@@ -47,5 +49,13 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../libs/api-client"
+    },
+    {
+      "path": "../../libs/auth-types"
+    }
   ]
 }
