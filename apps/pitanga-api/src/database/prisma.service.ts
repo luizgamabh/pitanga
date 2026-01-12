@@ -7,13 +7,8 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
-    super({
-      datasources: {
-        db: {
-          url: process.env.DATABASE_URL,
-        },
-      },
-    });
+    // Prisma 7: URL is read from DATABASE_URL env var automatically
+    super();
   }
 
   async onModuleInit() {
