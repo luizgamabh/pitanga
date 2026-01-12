@@ -9,9 +9,12 @@ module.exports = {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
-  // Externalize Prisma - it uses native binaries that can't be bundled
+  // Externalize Prisma and pg - they use native binaries that can't be bundled
   externals: {
     '@prisma/client': 'commonjs @prisma/client',
+    '@prisma/adapter-pg': 'commonjs @prisma/adapter-pg',
+    'pg': 'commonjs pg',
+    'pg-native': 'commonjs pg-native',
   },
   plugins: [
     new NxAppWebpackPlugin({
