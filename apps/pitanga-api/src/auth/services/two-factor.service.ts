@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { authenticator } from 'otplib';
+import { generateSecret, verify, generateURI, VerifyOptions } from 'otplib';
 import * as QRCode from 'qrcode';
 import { PrismaService } from '../../database';
 import { ITwoFactorSetup, AUTH_CONSTANTS } from '@pitanga/auth-types';
@@ -8,6 +8,7 @@ import { ITwoFactorSetup, AUTH_CONSTANTS } from '@pitanga/auth-types';
 @Injectable()
 export class TwoFactorService {
   private readonly appName: string;
+  private readonly verifyOptions: Partial<VerifyOptions>;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -16,8 +17,8 @@ export class TwoFactorService {
     this.appName =
       this.configService.get<string>('TWO_FACTOR_APP_NAME') || 'Pitanga';
 
-    // Configure authenticator
-    authenticator.options = {
+    // Configure verification options with window tolerance
+    this.verifyOptions = {
       window: AUTH_CONSTANTS.TOTP_WINDOW,
     };
   }
@@ -35,8 +36,13 @@ export class TwoFactorService {
       throw new BadRequestException('2FA already enabled');
     }
 
-    const secret = authenticator.generateSecret();
-    const otpauthUrl = authenticator.keyuri(user.email, this.appName, secret);
+    const secret = generateSecret();
+    const otpauthUrl = generateURI({
+      type: 'totp',
+      secret,
+      label: user.email,
+      issuer: this.appName,
+    });
     const qrCode = await QRCode.toDataURL(otpauthUrl);
 
     return {
@@ -59,9 +65,13 @@ export class TwoFactorService {
       throw new BadRequestException('2FA already enabled');
     }
 
-    const isValid = authenticator.verify({ token: code, secret });
+    const result = await verify({
+      secret,
+      token: code,
+      ...this.verifyOptions,
+    });
 
-    if (!isValid) {
+    if (!result.valid) {
       throw new BadRequestException('Invalid verification code');
     }
 
@@ -105,12 +115,13 @@ export class TwoFactorService {
     }
 
     // Verify TOTP code
-    const isValid = authenticator.verify({
-      token: code,
+    const result = await verify({
       secret: user.twoFactorSecret,
+      token: code,
+      ...this.verifyOptions,
     });
 
-    if (!isValid) {
+    if (!result.valid) {
       throw new BadRequestException('Invalid verification code');
     }
 
@@ -134,10 +145,13 @@ export class TwoFactorService {
       return false;
     }
 
-    return authenticator.verify({
-      token: code,
+    const result = await verify({
       secret: user.twoFactorSecret,
+      token: code,
+      ...this.verifyOptions,
     });
+
+    return result.valid;
   }
 
   async isEnabled(userId: string): Promise<boolean> {

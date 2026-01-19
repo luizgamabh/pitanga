@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { OAuthProvider } from '@prisma/client';
@@ -6,6 +6,10 @@ import { OAuthService } from '../services';
 import { GoogleOAuthGuard, FacebookOAuthGuard } from '../guards';
 import { Public } from '../decorators';
 import { IOAuthProfile, AUTH_CONSTANTS } from '@pitanga/auth-types';
+import {
+  OAUTH_PROVIDERS_CONFIG,
+  OAuthProviderConfig,
+} from '../config';
 
 @Controller('auth')
 export class OAuthController {
@@ -14,9 +18,20 @@ export class OAuthController {
   constructor(
     private readonly oauthService: OAuthService,
     private readonly configService: ConfigService,
+    @Inject(OAUTH_PROVIDERS_CONFIG)
+    private readonly oauthConfig: OAuthProviderConfig,
   ) {
     this.frontendUrl =
       this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
+  }
+
+  /**
+   * Returns which OAuth providers are available on this server
+   */
+  @Public()
+  @Get('oauth/providers')
+  getAvailableProviders(): OAuthProviderConfig {
+    return this.oauthConfig;
   }
 
   @Public()
