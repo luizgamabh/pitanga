@@ -37,8 +37,8 @@ ENV PORT=3333
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nestjs
 
-# Copy built application (includes generated package.json)
-COPY --from=builder /app/dist/apps/pitanga-api ./
+# Copy built application
+COPY --from=builder /app/apps/pitanga-api/dist ./
 
 # Install production dependencies only
 RUN npm install --omit=dev && \
