@@ -1,28 +1,29 @@
 import {
-  Controller,
-  Post,
-  Get,
   Body,
-  Req,
-  Res,
+  Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Post,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from '../services';
 import { JwtAuthGuard } from '../guards';
-import { Public, CurrentUser } from '../decorators';
+import { CurrentUser, Public } from '../decorators';
 import {
-  RegisterDto,
+  AUTH_CONSTANTS,
+  IAuthResponse,
+  IAuthUser,
+  ILoginResponse,
+  ITokenPair,
+  IUserProfile,
   LoginDto,
   RefreshTokenDto,
-  IAuthResponse,
-  ILoginResponse,
-  IUserProfile,
-  ITokenPair,
-  IAuthUser,
-  AUTH_CONSTANTS,
+  RegisterDto,
+  Role,
 } from '@pitanga/auth-types';
 
 @Controller('auth')
@@ -74,11 +75,23 @@ export class AuthController {
       dto.refreshToken || req.cookies?.[AUTH_CONSTANTS.COOKIE_REFRESH_TOKEN];
 
     const deviceInfo = this.extractDeviceInfo(req);
-    const result = await this.authService.refreshTokens(refreshToken, deviceInfo);
+    const result = await this.authService.refreshTokens(
+      refreshToken,
+      deviceInfo,
+    );
 
     this.setTokenCookies(res, {
+      expiresIn: 0,
+      tokenType: 'Bearer',
       ...result,
-      user: { id: '', email: '', name: null, role: 'USER', emailVerified: false },
+      user: {
+        id: '',
+        email: '',
+        name: null,
+        role: Role.USER,
+        emailVerified: false,
+        twoFactorEnabled: false,
+      },
     });
 
     return result;

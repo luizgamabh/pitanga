@@ -21,8 +21,8 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate --schema=apps/pitanga-api/prisma/schema.prisma --config=apps/pitanga-api/prisma.config.ts
 
-# Build the API and generate pruned package files
-RUN npx nx sync && npx nx run pitanga-api:prune
+# Build the API (workspace libraries are bundled by webpack)
+RUN npx nx run pitanga-api:build:production
 
 # Production stage
 FROM node:22-alpine AS runner
@@ -37,8 +37,8 @@ ENV PORT=3333
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nestjs
 
-# Copy built application (includes pruned package.json and package-lock.json)
-COPY --from=builder /app/apps/pitanga-api/dist ./
+# Copy built application (includes generated package.json)
+COPY --from=builder /app/dist/apps/pitanga-api ./
 
 # Install production dependencies only
 RUN npm install --omit=dev && \
