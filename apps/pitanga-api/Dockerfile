@@ -9,6 +9,8 @@ COPY package.json package-lock.json ./
 # Copy workspace package.json files (needed for npm workspaces)
 COPY apps/pitanga-api/package.json ./apps/pitanga-api/
 COPY apps/pitanga/package.json ./apps/pitanga/
+COPY libs/auth-types/package.json ./libs/auth-types/
+COPY libs/api-client/package.json ./libs/api-client/
 
 # Install all dependencies (including dev for build and workspace deps)
 RUN npm ci
