@@ -6,36 +6,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Development (runs both API and web concurrently)
-npm run dev
+yarn dev
 
 # Individual app development
-npm run api:dev          # NestJS API on http://localhost:3333/api
-npm run web:dev          # Next.js web on http://localhost:3000
+yarn api:dev          # NestJS API on http://localhost:3333/api
+yarn web:dev          # Next.js web on http://localhost:3000
 
 # Build
-npm run build            # Build all projects
-npm run api:build        # Build API only
-npm run web:build        # Build web only
+yarn build            # Build all projects
+yarn api:build        # Build API only
+yarn web:build        # Build web only
 
 # Testing
-npm run test             # Run all tests
-npm run api:test         # API unit tests (Jest)
-npm run web:test         # Web unit tests (Jest)
-npm run api:e2e          # API e2e tests (Jest)
-npm run web:e2e          # Web e2e tests (Playwright)
+yarn test             # Run all tests
+yarn api:test         # API unit tests (Jest)
+yarn web:test         # Web unit tests (Jest)
+yarn api:e2e          # API e2e tests (Jest)
+yarn web:e2e          # Web e2e tests (Playwright)
 
 # Run a single test file
-npx nx test pitanga-api --testFile=app.service.spec.ts
+yarn nx test pitanga-api --testFile=app.service.spec.ts
 
 # Linting & Formatting
-npm run lint             # Lint all projects
-npm run format           # Format code with Prettier
-npm run typecheck        # TypeScript type checking
+yarn lint             # Lint all projects
+yarn format           # Format code with Prettier
+yarn typecheck        # TypeScript type checking
 
 # Run affected (only changed projects)
-npm run affected:build
-npm run affected:test
-npm run affected:lint
+yarn affected:build
+yarn affected:test
+yarn affected:lint
 ```
 
 ## Project Rules
@@ -96,25 +96,25 @@ The API uses two databases:
 - **PostgreSQL** (via Prisma) - Relational data (users, screens, playlists, media)
 - **MongoDB** (via Mongoose) - Analytics and logs (events, playbacks, metrics)
 
-### Database Commands (npm scripts)
+### Database Commands (yarn scripts)
 ```bash
 # Generate Prisma client (run after schema changes)
-npm run db:generate
+yarn db:generate
 
 # Create a new migration (development)
-npm run db:migrate
+yarn db:migrate
 
 # Apply pending migrations (production)
-npm run db:migrate:deploy
+yarn db:migrate:deploy
 
 # Push schema changes without migration (prototype/dev only)
-npm run db:push
+yarn db:push
 
 # Open Prisma Studio (database GUI)
-npm run db:studio
+yarn db:studio
 
 # Reset database (WARNING: deletes all data)
-npm run db:reset
+yarn db:reset
 ```
 
 ### Prisma Workflow
@@ -126,20 +126,20 @@ npm run db:reset
    # Edit .env with your credentials
 
    # Generate client and create tables
-   npm run db:generate
-   npm run db:migrate
+   yarn db:generate
+   yarn db:migrate
    ```
 
 2. **After schema changes:**
    ```bash
    # Edit apps/pitanga-api/prisma/schema.prisma
-   npm run db:migrate    # Creates migration and applies it
+   yarn db:migrate    # Creates migration and applies it
    ```
 
 3. **Production deployment:**
    ```bash
    # Migrations are applied via Dokku
-   dokku run pitanga-api npx prisma migrate deploy
+   dokku run pitanga-api yarn prisma migrate deploy
    ```
 
 ### Environment Variables
@@ -191,7 +191,7 @@ dokku config:show pitanga-api
 ### Running Migrations in Production
 ```bash
 # After deploy, run migrations
-dokku run pitanga-api npx prisma migrate deploy
+dokku run pitanga-api yarn prisma migrate deploy
 ```
 
 ### Docker Build (local test)

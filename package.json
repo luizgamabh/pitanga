@@ -2,6 +2,7 @@
   "name": "@pitanga/source",
   "version": "0.0.0",
   "license": "MIT",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "nx run-many -t dev serve",
     "build": "nx run-many -t build",
@@ -33,8 +34,8 @@
     "affected:lint": "nx affected -t lint --base=HEAD~1 --head=HEAD",
     "format": "nx format:write",
     "format:check": "nx format:check",
-    "resync": "rm -f package-lock.json && npm install",
-    "reinstall": "rm -rf node_modules package-lock.json && npm install"
+    "resync": "rm -f yarn.lock && yarn install",
+    "reinstall": "rm -rf node_modules yarn.lock && yarn install"
   },
   "private": true,
   "dependencies": {

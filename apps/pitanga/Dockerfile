@@ -6,16 +6,17 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 
-# Copy workspace package.json files (needed for npm workspaces)
+# Copy workspace package.json files (needed for yarn workspaces)
 COPY apps/pitanga-api/package.json ./apps/pitanga-api/
 COPY apps/pitanga/package.json ./apps/pitanga/
+COPY libs/auth-types/package.json ./libs/auth-types/
 COPY libs/api-client/package.json ./libs/api-client/
 
 # Install all dependencies with cache mount for faster builds
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci --include=dev
+RUN --mount=type=cache,target=/usr/local/share/.cache/yarn \
+    yarn install --frozen-lockfile
 
 # Copy source code
 COPY . .
@@ -23,7 +24,7 @@ COPY . .
 # Build the Next.js app with NX and Next.js cache
 RUN --mount=type=cache,target=/app/.nx/cache \
     --mount=type=cache,target=/app/apps/pitanga/.next/cache \
-    npx nx sync && npx nx build @pitanga/pitanga
+    yarn nx sync && yarn nx build @pitanga/pitanga
 
 # Production stage
 FROM node:22-alpine AS runner
