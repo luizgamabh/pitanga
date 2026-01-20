@@ -1,13 +1,22 @@
 'use client';
 
-import { useAuth } from '../../presentation/providers/auth-provider';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../store';
 
 export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoading, user } = useAuth();
+  const router = useRouter();
+  const { isLoading, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isLoading, isAuthenticated, router]);
 
   if (isLoading) {
     return (
@@ -35,8 +44,7 @@ export default function ProtectedLayout({
     );
   }
 
-  // AuthProvider will redirect to login if not authenticated
-  if (!user) {
+  if (!isAuthenticated) {
     return null;
   }
 

@@ -1,5 +1,5 @@
-// PostgreSQL Schema - Dados relacionais
-// Documentacao: https://pris.ly/d/prisma-schema
+// PostgreSQL Schema - Pitanga Digital Signage MVP
+// Documentation: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -7,6 +7,42 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+// ============================================
+// Multi-Tenancy
+// ============================================
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String   // Display name
+  legalName String?  @map("legal_name") // Legal business name
+  document  String?  // CNPJ/Tax ID
+  groupType TenantGroupType @default(COMPANY) @map("group_type")
+
+  // Billing info
+  billingEmail   String?  @map("billing_email")
+  billingAddress String?  @map("billing_address")
+
+  // Status
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  users       User[]
+  points      Point[]
+  contents    Content[]
+  playlists   Playlist[]
+  priceTables PriceTable[]
+
+  @@map("tenants")
+}
+
+enum TenantGroupType {
+  COMPANY
+  AGENCY
+  FRANCHISE
 }
 
 // ============================================
@@ -18,9 +54,13 @@ model User {
   email     String   @unique
   name      String?
   password  String?  // Optional for OAuth-only users
-  role      Role     @default(USER)
+  role      UserRole @default(OPERATOR)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Multi-tenancy
+  tenantId String? @map("tenant_id")
+  tenant   Tenant? @relation(fields: [tenantId], references: [id], onDelete: SetNull)
 
   // Email verification
   emailVerified   Boolean   @default(false) @map("email_verified")
@@ -36,11 +76,15 @@ model User {
   verificationTokens  VerificationToken[]
   passwordResetTokens PasswordResetToken[]
 
-  // Business relationships
-  screens   Screen[]
-  playlists Playlist[]
-
+  @@index([tenantId])
   @@map("users")
+}
+
+enum UserRole {
+  SUPER_ADMIN // System administrator (Pitanga staff)
+  ADMIN       // Tenant administrator
+  MANAGER     // Can manage content and points
+  OPERATOR    // Can only view
 }
 
 model OAuthAccount {
@@ -108,94 +152,332 @@ model PasswordResetToken {
   @@map("password_reset_tokens")
 }
 
-// ============================================
-// Business Models
-// ============================================
-
-model Screen {
-  id          String       @id @default(cuid())
-  name        String
-  description String?
-  status      ScreenStatus @default(OFFLINE)
-  lastPing    DateTime?    @map("last_ping")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-
-  // Relacionamentos
-  userId     String    @map("user_id")
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  playlistId String?   @map("playlist_id")
-  playlist   Playlist? @relation(fields: [playlistId], references: [id])
-
-  @@map("screens")
-}
-
-model Playlist {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  // Relacionamentos
-  userId  String         @map("user_id")
-  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items   PlaylistItem[]
-  screens Screen[]
-
-  @@map("playlists")
-}
-
-model PlaylistItem {
-  id       String @id @default(cuid())
-  order    Int
-  duration Int    @default(10) // segundos
-
-  // Relacionamentos
-  playlistId String   @map("playlist_id")
-  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  mediaId    String   @map("media_id")
-  media      Media    @relation(fields: [mediaId], references: [id])
-
-  @@map("playlist_items")
-}
-
-model Media {
-  id        String    @id @default(cuid())
-  name      String
-  type      MediaType
-  url       String
-  thumbnail String?
-  size      Int? // bytes
-  createdAt DateTime  @default(now()) @map("created_at")
-
-  // Relacionamentos
-  items PlaylistItem[]
-
-  @@map("media")
-}
-
-// ============================================
-// Enums
-// ============================================
-
-enum Role {
-  USER
-  ADMIN
-}
-
 enum OAuthProvider {
   GOOGLE
   FACEBOOK
 }
 
-enum ScreenStatus {
-  ONLINE
-  OFFLINE
-  MAINTENANCE
+// ============================================
+// Points (Screens/Devices)
+// ============================================
+
+model Point {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  code        String      @unique // PTG-XXXXXX activation code
+
+  // Display settings
+  orientation PointOrientation @default(LANDSCAPE)
+  resolution  String?          // e.g., "1920x1080"
+
+  // Location
+  location    String?
+  latitude    Float?
+  longitude   Float?
+
+  // Device info (filled after activation)
+  deviceId      String?   @map("device_id")
+  deviceModel   String?   @map("device_model")
+  deviceOS      String?   @map("device_os")
+  appVersion    String?   @map("app_version")
+
+  // WiFi configuration
+  wifiSsid     String? @map("wifi_ssid")
+  wifiPassword String? @map("wifi_password") // Encrypted
+
+  // Status
+  status       PointStatus @default(PENDING)
+  isActive     Boolean     @default(true) @map("is_active")
+  lastHeartbeat DateTime?  @map("last_heartbeat")
+  lastSyncAt   DateTime?   @map("last_sync_at")
+
+  // Timestamps
+  activatedAt DateTime? @map("activated_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  // Relationships
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  playlists PointPlaylist[]
+  logs      PointLog[]
+
+  @@index([tenantId])
+  @@index([code])
+  @@index([status])
+  @@map("points")
 }
 
-enum MediaType {
+enum PointOrientation {
+  LANDSCAPE
+  PORTRAIT
+}
+
+enum PointStatus {
+  PENDING     // Created but not activated
+  ONLINE      // Active and connected
+  OFFLINE     // Activated but not sending heartbeats
+  MAINTENANCE // Temporarily disabled
+}
+
+model PointLog {
+  id        String       @id @default(cuid())
+  event     PointLogEvent
+  message   String?
+  metadata  Json?        // Additional event data
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  pointId String @map("point_id")
+  point   Point  @relation(fields: [pointId], references: [id], onDelete: Cascade)
+
+  @@index([pointId])
+  @@index([createdAt])
+  @@map("point_logs")
+}
+
+enum PointLogEvent {
+  ACTIVATED
+  ONLINE
+  OFFLINE
+  SYNC_STARTED
+  SYNC_COMPLETED
+  SYNC_FAILED
+  CONTENT_PLAYED
+  ERROR
+}
+
+// ============================================
+// Contents (Media)
+// ============================================
+
+model Content {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  type        ContentType
+
+  // File info (for IMAGE/VIDEO)
+  fileUrl     String?     @map("file_url")
+  thumbnailUrl String?    @map("thumbnail_url")
+  fileSize    Int?        @map("file_size") // bytes
+  mimeType    String?     @map("mime_type")
+  duration    Int?        // seconds (for video)
+  width       Int?
+  height      Int?
+
+  // Special content configs
+  offerConfig    Json?    @map("offer_config")    // For OFFER type
+  priceTableId   String?  @map("price_table_id")  // For PRICE_TABLE type
+  priceTable     PriceTable? @relation(fields: [priceTableId], references: [id])
+  weatherCity    String?  @map("weather_city")    // For WEATHER type
+  youtubeUrl     String?  @map("youtube_url")     // For YOUTUBE type
+  rssUrl         String?  @map("rss_url")         // For RSS type
+  webpageUrl     String?  @map("webpage_url")     // For WEBPAGE type
+
+  // Status
+  status      ContentStatus @default(PROCESSING)
+  isActive    Boolean       @default(true) @map("is_active")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  playlistItems PlaylistItem[]
+
+  @@index([tenantId])
+  @@index([type])
+  @@index([status])
+  @@map("contents")
+}
+
+enum ContentType {
   IMAGE
   VIDEO
+  OFFER
+  PRICE_TABLE
+  WEATHER
+  YOUTUBE
+  RSS
   WEBPAGE
+}
+
+enum ContentStatus {
+  PROCESSING  // Being processed (uploaded, transcoding)
+  READY       // Ready to use
+  ERROR       // Processing failed
+}
+
+// ============================================
+// Playlists
+// ============================================
+
+model Playlist {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+
+  // Settings
+  isRandom    Boolean  @default(false) @map("is_random") // Random play order
+  isActive    Boolean  @default(true) @map("is_active")
+
+  // Calculated fields (updated when items change)
+  totalDuration Int    @default(0) @map("total_duration") // seconds
+  itemCount     Int    @default(0) @map("item_count")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  items  PlaylistItem[]
+  points PointPlaylist[]
+
+  @@index([tenantId])
+  @@map("playlists")
+}
+
+model PlaylistItem {
+  id       String @id @default(cuid())
+  order    Int    // Display order in playlist
+  duration Int    @default(10) // Display duration in seconds
+
+  // Scheduling (optional)
+  startTime  String?  @map("start_time")  // HH:mm format
+  endTime    String?  @map("end_time")    // HH:mm format
+  daysOfWeek Int[]    @map("days_of_week") // 0=Sunday, 6=Saturday
+
+  // Transitions
+  transition PlaylistTransition @default(NONE)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  playlistId String   @map("playlist_id")
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  contentId String  @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@index([playlistId])
+  @@map("playlist_items")
+}
+
+enum PlaylistTransition {
+  NONE
+  FADE
+  SLIDE_LEFT
+  SLIDE_RIGHT
+  SLIDE_UP
+  SLIDE_DOWN
+}
+
+model PointPlaylist {
+  id       String @id @default(cuid())
+  priority Int    @default(0) // Higher priority plays first
+
+  // Scheduling (optional - when this playlist should play)
+  startTime  String?  @map("start_time")  // HH:mm format
+  endTime    String?  @map("end_time")    // HH:mm format
+  daysOfWeek Int[]    @map("days_of_week") // 0=Sunday, 6=Saturday
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  pointId String @map("point_id")
+  point   Point  @relation(fields: [pointId], references: [id], onDelete: Cascade)
+
+  playlistId String   @map("playlist_id")
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  @@unique([pointId, playlistId])
+  @@index([pointId])
+  @@index([playlistId])
+  @@map("point_playlists")
+}
+
+// ============================================
+// Price Tables
+// ============================================
+
+model PriceTable {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+
+  // Display settings
+  theme       String   @default("default") // CSS theme name
+  showImages  Boolean  @default(true) @map("show_images")
+
+  // Status
+  isActive    Boolean  @default(true) @map("is_active")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  categories PriceCategory[]
+  contents   Content[]
+
+  @@index([tenantId])
+  @@map("price_tables")
+}
+
+model PriceCategory {
+  id    String @id @default(cuid())
+  name  String
+  order Int    @default(0)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  priceTableId String     @map("price_table_id")
+  priceTable   PriceTable @relation(fields: [priceTableId], references: [id], onDelete: Cascade)
+
+  items PriceItem[]
+
+  @@index([priceTableId])
+  @@map("price_categories")
+}
+
+model PriceItem {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal @db.Decimal(10, 2)
+  order       Int     @default(0)
+
+  // Optional image
+  imageUrl String? @map("image_url")
+
+  // Status
+  isAvailable Boolean @default(true) @map("is_available")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  categoryId String        @map("category_id")
+  category   PriceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@map("price_items")
 }

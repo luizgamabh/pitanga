@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from '../database';
 import { AuthModule, JwtAuthGuard } from '../auth';
+import { TenantsModule } from '../modules/tenants';
+import { PointsModule } from '../modules/points';
+import { StorageModule } from '../modules/storage';
 
 @Module({
   imports: [
@@ -14,6 +17,9 @@ import { AuthModule, JwtAuthGuard } from '../auth';
     }),
     DatabaseModule,
     AuthModule,
+    TenantsModule,
+    PointsModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [

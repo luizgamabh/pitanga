@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './global.css';
-import { AuthProvider } from '../presentation/providers';
+import { StoreProvider } from '../store';
 
 export const metadata: Metadata = {
   title: 'Pitanga',
@@ -31,7 +31,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );

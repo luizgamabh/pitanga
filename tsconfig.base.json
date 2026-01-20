@@ -20,7 +20,8 @@
     "baseUrl": ".",
     "paths": {
       "@pitanga/auth-types": ["libs/auth-types/src/index.ts"],
-      "@pitanga/api-client": ["libs/api-client/src/index.ts"]
+      "@pitanga/api-client": ["libs/api-client/src/index.ts"],
+      "@pitanga/shared-types": ["libs/shared-types/src/index.ts"]
     }
   }
 }

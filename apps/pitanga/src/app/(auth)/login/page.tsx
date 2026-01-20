@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth, ApiError } from '../../../presentation/providers/auth-provider';
+import { useAuth } from '../../../store';
+import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Input } from '../../../presentation/components/catalyst/input';
 import { Field, Label } from '../../../presentation/components/catalyst/fieldset';
@@ -13,41 +14,41 @@ import { Link } from '../../../presentation/components/catalyst/link';
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { login, api } = useAuth();
+  const [localError, setLocalError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login, api, isAuthenticated, error, twoFactorRequired, twoFactorToken, clearError } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/dashboard';
 
+  // Redirect if authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push(redirectTo);
+    }
+  }, [isAuthenticated, router, redirectTo]);
+
+  // Handle 2FA redirect
+  useEffect(() => {
+    if (twoFactorRequired && twoFactorToken) {
+      router.push(`/2fa/verify?token=${encodeURIComponent(twoFactorToken)}`);
+    }
+  }, [twoFactorRequired, twoFactorToken, router]);
+
+  // Display error from Redux state
+  useEffect(() => {
+    if (error) {
+      setLocalError(error);
+      setIsSubmitting(false);
+    }
+  }, [error]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const result = await login(email, password);
-
-      if (result.requiresTwoFactor && result.twoFactorToken) {
-        // Redirect to 2FA verification
-        router.push(`/2fa/verify?token=${encodeURIComponent(result.twoFactorToken)}`);
-        return;
-      }
-
-      router.push(redirectTo);
-    } catch (err) {
-      if (err instanceof ApiError) {
-        if (err.status === 403) {
-          setError('Por favor, verifique seu email antes de fazer login.');
-        } else {
-          setError(err.message || 'Credenciais inválidas');
-        }
-      } else {
-        setError('Erro ao fazer login. Tente novamente.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    setLocalError('');
+    clearError();
+    setIsSubmitting(true);
+    await login(email, password);
   };
 
   const handleGoogleLogin = () => {
@@ -69,9 +70,9 @@ function LoginForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && (
+        {localError && (
           <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-            {error}
+            {localError}
           </div>
         )}
 
@@ -108,9 +109,9 @@ function LoginForm() {
           type="submit"
           color="pitanga"
           className="w-full"
-          disabled={isLoading}
+          disabled={isSubmitting}
         >
-          {isLoading ? 'Entrando...' : 'Entrar'}
+          {isSubmitting ? 'Entrando...' : 'Entrar'}
         </Button>
       </form>
 

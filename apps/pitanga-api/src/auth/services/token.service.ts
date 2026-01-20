@@ -8,7 +8,7 @@ import {
   ITokenPair,
   AUTH_CONSTANTS,
 } from '@pitanga/auth-types';
-import { Role } from '@prisma/client';
+import { UserRole } from '@prisma/client';
 import { PrismaService } from '../../database';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class TokenService {
   async generateTokenPair(
     userId: string,
     email: string,
-    role: Role,
+    role: UserRole,
     deviceInfo?: { userAgent?: string; ipAddress?: string },
   ): Promise<ITokenPair> {
     const accessToken = await this.generateAccessToken(userId, email, role);
@@ -43,7 +43,7 @@ export class TokenService {
   private async generateAccessToken(
     userId: string,
     email: string,
-    role: Role,
+    role: UserRole,
   ): Promise<string> {
     const payload: ITokenPayload = {
       sub: userId,

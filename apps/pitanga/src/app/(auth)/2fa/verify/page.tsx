@@ -2,7 +2,8 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth, ApiError } from '../../../../presentation/providers/auth-provider';
+import { useAuth } from '../../../../store';
+import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../../presentation/components/catalyst/button';
 import { Input } from '../../../../presentation/components/catalyst/input';
 import { Field, Label } from '../../../../presentation/components/catalyst/fieldset';

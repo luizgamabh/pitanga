@@ -77,7 +77,9 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
+        tenantId: user.tenantId,
         emailVerified: user.emailVerified,
+        twoFactorEnabled: user.twoFactorEnabled,
       },
       ...tokens,
     };
@@ -138,7 +140,9 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
+        tenantId: user.tenantId,
         emailVerified: user.emailVerified,
+        twoFactorEnabled: user.twoFactorEnabled,
       },
       ...tokens,
     };
@@ -186,7 +190,9 @@ export class AuthService {
           email: user.email,
           name: user.name,
           role: user.role,
+          tenantId: user.tenantId,
           emailVerified: user.emailVerified,
+          twoFactorEnabled: user.twoFactorEnabled,
         },
         ...tokens,
       };
@@ -238,6 +244,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
+      tenantId: user.tenantId,
       emailVerified: user.emailVerified,
       emailVerifiedAt: user.emailVerifiedAt,
       twoFactorEnabled: user.twoFactorEnabled,

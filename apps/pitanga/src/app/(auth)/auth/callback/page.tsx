@@ -2,7 +2,7 @@
 
 import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../../../../presentation/providers/auth-provider';
+import { useAuth } from '../../../../store';
 import { Heading } from '../../../../presentation/components/catalyst/heading';
 import { Text } from '../../../../presentation/components/catalyst/text';
 import { Button } from '../../../../presentation/components/catalyst/button';

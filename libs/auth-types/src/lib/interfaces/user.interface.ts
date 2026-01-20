@@ -5,6 +5,7 @@ export interface IUser {
   email: string;
   name: string | null;
   role: Role;
+  tenantId: string | null;
   emailVerified: boolean;
   emailVerifiedAt: Date | null;
   twoFactorEnabled: boolean;
@@ -17,8 +18,13 @@ export interface IUserProfile {
   email: string;
   name: string | null;
   role: Role;
+  tenantId: string | null;
   emailVerified: boolean;
+  emailVerifiedAt?: Date | null;
   twoFactorEnabled: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  linkedProviders?: string[];
 }
 
 export interface IAuthUser {
@@ -26,6 +32,7 @@ export interface IAuthUser {
   email: string;
   name: string | null;
   role: Role;
+  tenantId: string | null;
   emailVerified: boolean;
   twoFactorEnabled: boolean;
 }

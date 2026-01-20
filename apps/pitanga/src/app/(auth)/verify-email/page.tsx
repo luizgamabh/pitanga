@@ -2,7 +2,8 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useAuth, ApiError } from '../../../presentation/providers/auth-provider';
+import { useAuth } from '../../../store';
+import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';

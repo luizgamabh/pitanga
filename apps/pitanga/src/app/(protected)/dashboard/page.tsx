@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '../../../presentation/providers/auth-provider';
+import { useAuth } from '../../../store';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';

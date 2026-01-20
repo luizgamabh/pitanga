@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { useAuth, ApiError } from '../../../presentation/providers/auth-provider';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../store';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Input } from '../../../presentation/components/catalyst/input';
 import { Field, Label } from '../../../presentation/components/catalyst/fieldset';
@@ -14,38 +15,43 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { register, api } = useAuth();
+  const [localError, setLocalError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, api, isAuthenticated, error, clearError } = useAuth();
+  const router = useRouter();
+
+  // Redirect on successful registration
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/verify-email?pending=true');
+    }
+  }, [isAuthenticated, router]);
+
+  // Display error from Redux state
+  useEffect(() => {
+    if (error) {
+      setLocalError(error);
+      setIsSubmitting(false);
+    }
+  }, [error]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setLocalError('');
+    clearError();
 
     if (password !== confirmPassword) {
-      setError('As senhas não conferem');
+      setLocalError('As senhas não conferem');
       return;
     }
 
     if (password.length < 8) {
-      setError('A senha deve ter pelo menos 8 caracteres');
+      setLocalError('A senha deve ter pelo menos 8 caracteres');
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      await register(email, password, name || undefined);
-      // AuthProvider will redirect to /verify-email?pending=true
-    } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message || 'Erro ao criar conta');
-      } else {
-        setError('Erro ao criar conta. Tente novamente.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    setIsSubmitting(true);
+    await register(email, password, name || undefined);
   };
 
   const handleGoogleLogin = () => {
@@ -67,9 +73,9 @@ export default function RegisterPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && (
+        {localError && (
           <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-            {error}
+            {localError}
           </div>
         )}
 
@@ -127,9 +133,9 @@ export default function RegisterPage() {
           type="submit"
           color="pitanga"
           className="w-full"
-          disabled={isLoading}
+          disabled={isSubmitting}
         >
-          {isLoading ? 'Criando conta...' : 'Criar conta'}
+          {isSubmitting ? 'Criando conta...' : 'Criar conta'}
         </Button>
       </form>
 
