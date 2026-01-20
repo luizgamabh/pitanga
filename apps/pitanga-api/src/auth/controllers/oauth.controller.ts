@@ -1,15 +1,13 @@
 import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { OAuthProvider } from '@prisma/client';
 import { OAuthService } from '../services';
 import { GoogleOAuthGuard, FacebookOAuthGuard } from '../guards';
 import { Public } from '../decorators';
 import { IOAuthProfile, AUTH_CONSTANTS } from '@pitanga/auth-types';
-import {
-  OAUTH_PROVIDERS_CONFIG,
-  OAuthProviderConfig,
-} from '../config';
+import { OAUTH_PROVIDERS_CONFIG } from '../config';
+import type { OAuthProviderConfig } from '../config';
 
 @Controller('auth')
 export class OAuthController {
@@ -48,11 +46,7 @@ export class OAuthController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<void> {
-    await this.handleOAuthCallback(
-      req,
-      res,
-      OAuthProvider.GOOGLE,
-    );
+    await this.handleOAuthCallback(req, res, OAuthProvider.GOOGLE);
   }
 
   @Public()
@@ -69,11 +63,7 @@ export class OAuthController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<void> {
-    await this.handleOAuthCallback(
-      req,
-      res,
-      OAuthProvider.FACEBOOK,
-    );
+    await this.handleOAuthCallback(req, res, OAuthProvider.FACEBOOK);
   }
 
   private async handleOAuthCallback(
@@ -99,20 +89,28 @@ export class OAuthController {
       const isProduction = process.env.NODE_ENV === 'production';
 
       // Set cookies
-      res.cookie(AUTH_CONSTANTS.COOKIE_ACCESS_TOKEN, result.tokens.accessToken, {
-        httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? 'strict' : 'lax',
-        maxAge: AUTH_CONSTANTS.ACCESS_TOKEN_EXPIRY_MS,
-      });
+      res.cookie(
+        AUTH_CONSTANTS.COOKIE_ACCESS_TOKEN,
+        result.tokens.accessToken,
+        {
+          httpOnly: true,
+          secure: isProduction,
+          sameSite: isProduction ? 'strict' : 'lax',
+          maxAge: AUTH_CONSTANTS.ACCESS_TOKEN_EXPIRY_MS,
+        },
+      );
 
-      res.cookie(AUTH_CONSTANTS.COOKIE_REFRESH_TOKEN, result.tokens.refreshToken, {
-        httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? 'strict' : 'lax',
-        maxAge: AUTH_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
-        path: '/api/auth',
-      });
+      res.cookie(
+        AUTH_CONSTANTS.COOKIE_REFRESH_TOKEN,
+        result.tokens.refreshToken,
+        {
+          httpOnly: true,
+          secure: isProduction,
+          sameSite: isProduction ? 'strict' : 'lax',
+          maxAge: AUTH_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
+          path: '/api/auth',
+        },
+      );
 
       // Redirect to frontend with success
       const redirectUrl = new URL(`${this.frontendUrl}/auth/callback`);
