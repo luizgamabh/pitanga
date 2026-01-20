@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import type { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { OAuthProvider } from '@prisma/client';
 import { OAuthService } from '../services';
 import { GoogleOAuthGuard, FacebookOAuthGuard } from '../guards';
