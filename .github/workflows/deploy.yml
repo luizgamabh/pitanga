@@ -28,8 +28,17 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
+      - name: Cache NX
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+            nx-${{ runner.os }}-
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Detect affected projects
         id: affected

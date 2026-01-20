@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 # Build stage
 FROM node:22-alpine AS builder
 
@@ -9,17 +11,19 @@ COPY package.json package-lock.json ./
 # Copy workspace package.json files (needed for npm workspaces)
 COPY apps/pitanga-api/package.json ./apps/pitanga-api/
 COPY apps/pitanga/package.json ./apps/pitanga/
-COPY libs/auth-types/package.json ./libs/auth-types/
 COPY libs/api-client/package.json ./libs/api-client/
 
-# Install all dependencies (including dev for build)
-RUN npm install
+# Install all dependencies with cache mount for faster builds
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --include=dev
 
 # Copy source code
 COPY . .
 
-# Build the Next.js app
-RUN npx nx build @pitanga/pitanga
+# Build the Next.js app with NX and Next.js cache
+RUN --mount=type=cache,target=/app/.nx/cache \
+    --mount=type=cache,target=/app/apps/pitanga/.next/cache \
+    npx nx sync && npx nx build @pitanga/pitanga
 
 # Production stage
 FROM node:22-alpine AS runner

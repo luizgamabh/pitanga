@@ -52,7 +52,7 @@ export function Hero() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-base/7 font-semibold text-pitanga-600 dark:text-pitanga-400">
-              Mídia Digital Indoor para comércios
+              Mídia Digital Indoor para comércios!
             </p>
             <h1 className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-6xl dark:text-white">
               Sua TV vendendo por você,{' '}
