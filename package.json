@@ -32,7 +32,9 @@
     "affected:test": "nx affected -t test",
     "affected:lint": "nx affected -t lint",
     "format": "nx format:write",
-    "format:check": "nx format:check"
+    "format:check": "nx format:check",
+    "resync": "rm -f package-lock.json && npm install",
+    "reinstall": "rm -rf node_modules package-lock.json && npm install"
   },
   "private": true,
   "dependencies": {

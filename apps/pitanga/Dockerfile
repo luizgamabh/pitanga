@@ -13,7 +13,8 @@ COPY libs/auth-types/package.json ./libs/auth-types/
 COPY libs/api-client/package.json ./libs/api-client/
 
 # Install all dependencies (including dev for build)
-RUN npm ci
+# Falls back to npm install if lock file is out of sync
+RUN npm ci || npm install
 
 # Copy source code
 COPY . .
