@@ -40,13 +40,13 @@ jobs:
           echo "Affected projects: $AFFECTED"
 
           # Check if specific apps are affected
-          if echo "$AFFECTED" | grep -q "pitanga-api"; then
+          if echo "$AFFECTED" | grep -q "@pitanga\/pitanga-api"; then
             echo "api=true" >> $GITHUB_OUTPUT
           else
             echo "api=false" >> $GITHUB_OUTPUT
           fi
 
-          if echo "$AFFECTED" | grep -q "^pitanga$"; then
+          if echo "$AFFECTED" | grep -q "^@pitanga\/pitanga$"; then
             echo "web=true" >> $GITHUB_OUTPUT
           else
             echo "web=false" >> $GITHUB_OUTPUT
