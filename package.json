@@ -44,6 +44,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.0",
+    "@prisma/client": "7.2.0",
     "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.6.0",
     "bcrypt": "^6.0.0",
