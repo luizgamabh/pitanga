@@ -22,7 +22,7 @@ COPY . .
 RUN npx prisma generate --schema=apps/pitanga-api/prisma/schema.prisma --config=apps/pitanga-api/prisma.config.ts
 
 # Build the API (workspace libraries are bundled by webpack)
-RUN npx nx run pitanga-api:build:production
+RUN npx nx build @pitanga/pitanga-api --configuration=production
 
 # Production stage
 FROM node:22-alpine AS runner
