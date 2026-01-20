@@ -13,7 +13,7 @@ COPY libs/auth-types/package.json ./libs/auth-types/
 COPY libs/api-client/package.json ./libs/api-client/
 
 # Install all dependencies (including dev for build and workspace deps)
-RUN npm ci --legacy-peer-deps
+RUN npm ci
 
 # Copy source code
 COPY . .
