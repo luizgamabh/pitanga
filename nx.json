@@ -28,7 +28,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["libs/auth-types/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -81,6 +82,15 @@
       "options": {
         "targetName": "e2e"
       }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["libs/auth-types/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
   ],
   "targetDefaults": {
@@ -91,7 +101,7 @@
   "generators": {
     "@nx/next": {
       "application": {
-        "style": "css",
+        "style": "tailwind",
         "linter": "eslint"
       }
     }

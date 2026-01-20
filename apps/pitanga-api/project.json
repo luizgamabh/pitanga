@@ -16,7 +16,8 @@
         "tsConfig": "apps/pitanga-api/tsconfig.app.json",
         "webpackConfig": "apps/pitanga-api/webpack.config.js",
         "assets": ["apps/pitanga-api/src/assets"],
-        "sourceMap": true
+        "sourceMap": true,
+        "externalDependencies": "none"
       },
       "configurations": {
         "development": {
