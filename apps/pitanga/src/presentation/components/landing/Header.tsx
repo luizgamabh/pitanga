@@ -57,7 +57,13 @@ export function Header() {
             </a>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:gap-x-6">
+          <a
+            href="/login"
+            className="text-sm/6 font-semibold text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-300 transition-colors"
+          >
+            Entrar
+          </a>
           <a
             href="#contato"
             className="rounded-md bg-pitanga-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-pitanga-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pitanga-500 transition-colors"
@@ -110,7 +116,14 @@ export function Header() {
                   </a>
                 ))}
               </div>
-              <div className="py-6">
+              <div className="space-y-2 py-6">
+                <a
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-800"
+                >
+                  Entrar
+                </a>
                 <a
                   href="#contato"
                   onClick={() => setMobileMenuOpen(false)}
