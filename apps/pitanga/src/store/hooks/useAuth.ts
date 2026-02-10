@@ -10,13 +10,13 @@ import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { authActions } from '../slices';
 import {
-  selectUser,
-  selectProfile,
+  selectAuthError,
   selectIsAuthenticated,
   selectIsLoading,
-  selectAuthError,
+  selectProfile,
   selectTwoFactorRequired,
   selectTwoFactorToken,
+  selectUser,
 } from '../selectors';
 import { apiClient } from '../StoreProvider';
 
@@ -42,7 +42,7 @@ export function useAuth() {
     async (email: string, password: string) => {
       dispatch(authActions.login({ email, password }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Register function
@@ -50,7 +50,7 @@ export function useAuth() {
     async (email: string, password: string, name?: string) => {
       dispatch(authActions.register({ email, password, name }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Logout function

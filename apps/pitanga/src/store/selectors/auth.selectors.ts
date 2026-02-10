@@ -14,42 +14,42 @@ export const selectUser = createSelector(selectAuthState, (auth) => auth.user);
 
 export const selectProfile = createSelector(
   selectAuthState,
-  (auth) => auth.profile
+  (auth) => auth.profile,
 );
 
 export const selectIsAuthenticated = createSelector(
   selectAuthState,
-  (auth) => auth.isAuthenticated
+  (auth) => auth.isAuthenticated,
 );
 
 export const selectAuthStatus = createSelector(
   selectAuthState,
-  (auth) => auth.status
+  (auth) => auth.status,
 );
 
 export const selectAuthError = createSelector(
   selectAuthState,
-  (auth) => auth.error
+  (auth) => auth.error,
 );
 
 export const selectIsLoading = createSelector(
   selectAuthState,
-  (auth) => auth.status === 'loading'
+  (auth) => auth.status === 'loading',
 );
 
 export const selectAccessToken = createSelector(
   selectAuthState,
-  (auth) => auth.accessToken
+  (auth) => auth.accessToken,
 );
 
 export const selectTwoFactorRequired = createSelector(
   selectAuthState,
-  (auth) => auth.twoFactorRequired
+  (auth) => auth.twoFactorRequired,
 );
 
 export const selectTwoFactorToken = createSelector(
   selectAuthState,
-  (auth) => auth.twoFactorToken
+  (auth) => auth.twoFactorToken,
 );
 
 // Composite selectors

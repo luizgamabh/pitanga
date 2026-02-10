@@ -4,18 +4,18 @@
  * @author Luiz Gama
  */
 import {
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsBoolean,
-  IsNumber,
-  IsArray,
-  MinLength,
-  MaxLength,
-  Matches,
-  Min,
-  Max,
   ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
 } from 'class-validator';
 import { PlaylistTransition } from '../enums/playlist.enum';
 
@@ -68,12 +68,16 @@ export class AddPlaylistItemDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   startTime?: string;
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   endTime?: string;
 
   @IsOptional()
@@ -97,12 +101,16 @@ export class UpdatePlaylistItemDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   startTime?: string;
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   endTime?: string;
 
   @IsOptional()

@@ -25,7 +25,10 @@ export function FinalCTA() {
   };
 
   return (
-    <section id="contato" className="py-24 sm:py-32 bg-gray-900 dark:bg-gray-950">
+    <section
+      id="contato"
+      className="py-24 sm:py-32 bg-gray-900 dark:bg-gray-950"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <motion.div
@@ -38,7 +41,8 @@ export function FinalCTA() {
               Pronto para suas TVs venderem por você?
             </h2>
             <p className="mt-4 text-lg text-gray-300">
-              Solicite uma proposta e receba um diagnóstico gratuito para sua loja.
+              Solicite uma proposta e receba um diagnóstico gratuito para sua
+              loja.
             </p>
           </motion.div>
         </div>
@@ -53,11 +57,23 @@ export function FinalCTA() {
           {submitted ? (
             <div className="rounded-2xl bg-green-500/10 p-8 text-center ring-1 ring-green-500/30">
               <div className="mx-auto h-16 w-16 rounded-full bg-green-500/20 flex items-center justify-center">
-                <svg className="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                <svg
+                  className="h-8 w-8 text-green-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
                 </svg>
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-white">Recebemos sua solicitação!</h3>
+              <h3 className="mt-4 text-xl font-semibold text-white">
+                Recebemos sua solicitação!
+              </h3>
               <p className="mt-2 text-gray-300">
                 Nossa equipe entrará em contato em até 24 horas úteis.
               </p>
@@ -71,7 +87,9 @@ export function FinalCTA() {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="Seu nome"
                   />
                 </Field>
@@ -80,7 +98,9 @@ export function FinalCTA() {
                   <Input
                     type="text"
                     value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, company: e.target.value })
+                    }
                     placeholder="Nome da empresa"
                   />
                 </Field>
@@ -92,7 +112,9 @@ export function FinalCTA() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   placeholder="seu@email.com"
                 />
               </Field>
@@ -103,16 +125,22 @@ export function FinalCTA() {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   placeholder="(00) 00000-0000"
                 />
               </Field>
 
               <Field>
-                <Label className="!text-gray-300">Quantas telas você precisa?</Label>
+                <Label className="!text-gray-300">
+                  Quantas telas você precisa?
+                </Label>
                 <Select
                   value={formData.screens}
-                  onChange={(e) => setFormData({ ...formData, screens: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, screens: e.target.value })
+                  }
                 >
                   <option value="1-2">1-2 telas</option>
                   <option value="3-5">3-5 telas</option>

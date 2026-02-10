@@ -15,7 +15,8 @@ export function Simulator() {
     const monthlyVisitors = visitors * daysPerWeek * 4;
     const impulseVisitors = monthlyVisitors * (impulseRate / 100);
     const conservativeImprovement = 0.02; // 2% improvement
-    const additionalSales = impulseVisitors * conservativeImprovement * ticketAverage;
+    const additionalSales =
+      impulseVisitors * conservativeImprovement * ticketAverage;
 
     return {
       low: Math.round(additionalSales * 0.5),
@@ -36,7 +37,8 @@ export function Simulator() {
             Quanto você pode estar deixando na mesa?
           </p>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Descubra o potencial de vendas que uma comunicação visual eficiente pode gerar.
+            Descubra o potencial de vendas que uma comunicação visual eficiente
+            pode gerar.
           </p>
         </div>
 
@@ -53,7 +55,9 @@ export function Simulator() {
               <div>
                 <label className="flex justify-between text-sm font-medium text-gray-900 dark:text-white">
                   <span>Pessoas por dia na loja</span>
-                  <span className="text-pitanga-600 dark:text-pitanga-400">{visitors}</span>
+                  <span className="text-pitanga-600 dark:text-pitanga-400">
+                    {visitors}
+                  </span>
                 </label>
                 <input
                   type="range"
@@ -70,7 +74,9 @@ export function Simulator() {
               <div>
                 <label className="flex justify-between text-sm font-medium text-gray-900 dark:text-white">
                   <span>Ticket médio (R$)</span>
-                  <span className="text-pitanga-600 dark:text-pitanga-400">R$ {ticketAverage}</span>
+                  <span className="text-pitanga-600 dark:text-pitanga-400">
+                    R$ {ticketAverage}
+                  </span>
                 </label>
                 <input
                   type="range"
@@ -87,7 +93,9 @@ export function Simulator() {
               <div>
                 <label className="flex justify-between text-sm font-medium text-gray-900 dark:text-white">
                   <span>% que decide na hora</span>
-                  <span className="text-pitanga-600 dark:text-pitanga-400">{impulseRate}%</span>
+                  <span className="text-pitanga-600 dark:text-pitanga-400">
+                    {impulseRate}%
+                  </span>
                 </label>
                 <input
                   type="range"
@@ -104,7 +112,9 @@ export function Simulator() {
               <div>
                 <label className="flex justify-between text-sm font-medium text-gray-900 dark:text-white">
                   <span>Dias de funcionamento/semana</span>
-                  <span className="text-pitanga-600 dark:text-pitanga-400">{daysPerWeek}</span>
+                  <span className="text-pitanga-600 dark:text-pitanga-400">
+                    {daysPerWeek}
+                  </span>
                 </label>
                 <input
                   type="range"
@@ -140,11 +150,13 @@ export function Simulator() {
                     Potencial mensal de vendas adicionais:
                   </p>
                   <p className="mt-2 text-3xl font-bold text-pitanga-600 dark:text-pitanga-400">
-                    R$ {potential.low.toLocaleString('pt-BR')} - R$ {potential.high.toLocaleString('pt-BR')}
+                    R$ {potential.low.toLocaleString('pt-BR')} - R${' '}
+                    {potential.high.toLocaleString('pt-BR')}
                   </p>
                   <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                    * Estimativa conservadora baseada em melhoria de 1-3% nas decisões de compra por impulso.
-                    Resultados podem variar conforme o segmento e execução.
+                    * Estimativa conservadora baseada em melhoria de 1-3% nas
+                    decisões de compra por impulso. Resultados podem variar
+                    conforme o segmento e execução.
                   </p>
                   <a
                     href="#contato"

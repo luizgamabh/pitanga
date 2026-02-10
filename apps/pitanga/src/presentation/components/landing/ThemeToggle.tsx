@@ -5,8 +5,8 @@
  *
  * @author Luiz Gama
  */
-import { useState, useEffect } from 'react';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState } from 'react';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);

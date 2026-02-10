@@ -1,7 +1,7 @@
-import { HttpClient, HttpClientConfig, ApiError } from './http-client';
+import { ApiError, HttpClient, HttpClientConfig } from './http-client';
 import { AuthApi } from './auth';
 
-export interface ApiClientConfig extends HttpClientConfig {}
+export type ApiClientConfig = HttpClientConfig;
 
 export class ApiClient {
   private readonly http: HttpClient;

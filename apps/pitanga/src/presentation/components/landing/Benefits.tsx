@@ -2,12 +2,12 @@
 
 import { motion } from 'motion/react';
 import {
-  ClockIcon,
   BoltIcon,
-  WifiIcon,
   BuildingStorefrontIcon,
-  SparklesIcon,
+  ClockIcon,
   CurrencyDollarIcon,
+  SparklesIcon,
+  WifiIcon,
 } from '@heroicons/react/24/outline';
 
 const benefits = [
@@ -45,7 +45,10 @@ const benefits = [
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="py-24 sm:py-32 bg-gray-50 dark:bg-gray-800/50">
+    <section
+      id="beneficios"
+      className="py-24 sm:py-32 bg-gray-50 dark:bg-gray-800/50"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-base/7 font-semibold text-pitanga-600 dark:text-pitanga-400">

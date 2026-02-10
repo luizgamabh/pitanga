@@ -1,19 +1,25 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { TvIcon, DevicePhoneMobileIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowPathIcon,
+  DevicePhoneMobileIcon,
+  TvIcon,
+} from '@heroicons/react/24/outline';
 
 const steps = [
   {
     number: '01',
     title: 'Conecte o dispositivo',
-    description: 'Plugue o pequeno dispositivo na entrada HDMI da sua TV. Pronto.',
+    description:
+      'Plugue o pequeno dispositivo na entrada HDMI da sua TV. Pronto.',
     icon: TvIcon,
   },
   {
     number: '02',
     title: 'Configure pelo celular',
-    description: 'Acesse o painel pelo celular ou computador e escolha o que exibir.',
+    description:
+      'Acesse o painel pelo celular ou computador e escolha o que exibir.',
     icon: DevicePhoneMobileIcon,
   },
   {
@@ -85,7 +91,11 @@ export function HowItWorks() {
         >
           <div className="inline-flex items-center gap-2 rounded-full bg-green-50 dark:bg-green-900/30 px-4 py-2 text-sm text-green-700 dark:text-green-300 ring-1 ring-green-100 dark:ring-green-800">
             <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                clipRule="evenodd"
+              />
             </svg>
             Pode ser replicado em várias TVs da mesma loja ou em filiais
           </div>

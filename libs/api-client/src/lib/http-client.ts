@@ -1,7 +1,10 @@
 export interface HttpClientConfig {
   baseUrl: string;
   getAccessToken?: () => string | null;
-  onTokenRefresh?: (tokens: { accessToken: string; refreshToken: string }) => void;
+  onTokenRefresh?: (tokens: {
+    accessToken: string;
+    refreshToken: string;
+  }) => void;
   onAuthError?: () => void;
 }
 
@@ -13,7 +16,10 @@ export interface RequestOptions {
 export class HttpClient {
   private baseUrl: string;
   private getAccessToken?: () => string | null;
-  private onTokenRefresh?: (tokens: { accessToken: string; refreshToken: string }) => void;
+  private onTokenRefresh?: (tokens: {
+    accessToken: string;
+    refreshToken: string;
+  }) => void;
   private onAuthError?: () => void;
   private isRefreshing = false;
   private refreshPromise: Promise<boolean> | null = null;
@@ -62,7 +68,9 @@ export class HttpClient {
     }
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({})) as { message?: string };
+      const errorData = (await response.json().catch(() => ({}))) as {
+        message?: string;
+      };
       throw new ApiError(
         errorData.message || response.statusText,
         response.status,
@@ -108,7 +116,10 @@ export class HttpClient {
         return false;
       }
 
-      const tokens = await response.json() as { accessToken: string; refreshToken: string };
+      const tokens = (await response.json()) as {
+        accessToken: string;
+        refreshToken: string;
+      };
       this.onTokenRefresh?.(tokens);
       return true;
     } catch {
@@ -120,15 +131,27 @@ export class HttpClient {
     return this.request<T>('GET', path, undefined, options);
   }
 
-  async post<T>(path: string, body?: unknown, options?: RequestOptions): Promise<T> {
+  async post<T>(
+    path: string,
+    body?: unknown,
+    options?: RequestOptions,
+  ): Promise<T> {
     return this.request<T>('POST', path, body, options);
   }
 
-  async put<T>(path: string, body?: unknown, options?: RequestOptions): Promise<T> {
+  async put<T>(
+    path: string,
+    body?: unknown,
+    options?: RequestOptions,
+  ): Promise<T> {
     return this.request<T>('PUT', path, body, options);
   }
 
-  async patch<T>(path: string, body?: unknown, options?: RequestOptions): Promise<T> {
+  async patch<T>(
+    path: string,
+    body?: unknown,
+    options?: RequestOptions,
+  ): Promise<T> {
     return this.request<T>('PATCH', path, body, options);
   }
 

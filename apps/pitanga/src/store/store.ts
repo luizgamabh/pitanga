@@ -37,7 +37,8 @@ export const store = configureStore({
 export const initializeEpics = (dependencies: EpicDependencies) => {
   epicMiddleware.run(rootEpic as never);
   // Store dependencies for later use
-  (store as unknown as { dependencies: EpicDependencies }).dependencies = dependencies;
+  (store as unknown as { dependencies: EpicDependencies }).dependencies =
+    dependencies;
 };
 
 // Export store types

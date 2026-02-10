@@ -2,14 +2,14 @@
 
 import {
   createContext,
+  type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
-  useCallback,
-  type ReactNode,
 } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { createApiClient, ApiClient, ApiError } from '@pitanga/api-client';
+import { usePathname, useRouter } from 'next/navigation';
+import { ApiClient, ApiError, createApiClient } from '@pitanga/api-client';
 import type { IAuthUser, IUserProfile } from '@pitanga/auth-types';
 
 interface AuthContextType {
@@ -18,7 +18,10 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   api: ApiClient;
-  login: (email: string, password: string) => Promise<{ requiresTwoFactor?: boolean; twoFactorToken?: string }>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ requiresTwoFactor?: boolean; twoFactorToken?: string }>;
   register: (email: string, password: string, name?: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -102,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isLoading) return;
 
     const isPublicPath = PUBLIC_PATHS.some(
-      (path) => pathname === path || pathname.startsWith('/auth/')
+      (path) => pathname === path || pathname.startsWith('/auth/'),
     );
 
     if (!user && !isPublicPath) {
@@ -112,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (
     email: string,
-    password: string
+    password: string,
   ): Promise<{ requiresTwoFactor?: boolean; twoFactorToken?: string }> => {
     const result = await api.auth.login({ email, password });
 
@@ -138,7 +141,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (
     email: string,
     password: string,
-    name?: string
+    name?: string,
   ): Promise<void> => {
     const result = await api.auth.register({ email, password, name });
     setAccessToken(result.accessToken);

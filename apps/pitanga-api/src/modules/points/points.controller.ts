@@ -4,29 +4,29 @@
  * @author Luiz Gama
  */
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
-  Param,
-  UseGuards,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Point, UserRole } from '@prisma/client';
 import { PointsService } from './points.service';
 import {
-  CreatePointDto,
-  UpdatePointDto,
   ActivatePointDto,
+  CreatePointDto,
   PointHeartbeatDto,
+  UpdatePointDto,
 } from '@pitanga/shared-types';
 import { JwtAuthGuard, RolesGuard } from '../../auth/guards';
-import { Roles, CurrentUser, Public } from '../../auth/decorators';
+import { CurrentUser, Public, Roles } from '../../auth/decorators';
 import { IAuthUser } from '@pitanga/auth-types';
 
 @Controller('points')
@@ -38,7 +38,12 @@ export class PointsController {
    * List all points for the current user's tenant
    */
   @Get()
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER, UserRole.OPERATOR)
+  @Roles(
+    UserRole.SUPER_ADMIN,
+    UserRole.ADMIN,
+    UserRole.MANAGER,
+    UserRole.OPERATOR,
+  )
   findAll(@CurrentUser() user: IAuthUser): Observable<Point[]> {
     if (user.role === UserRole.SUPER_ADMIN) {
       // For super admin, could return all points or require tenant filter
@@ -65,8 +70,16 @@ export class PointsController {
    * Get a point by ID
    */
   @Get(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER, UserRole.OPERATOR)
-  findOne(@Param('id') id: string, @CurrentUser() user: IAuthUser): Observable<Point> {
+  @Roles(
+    UserRole.SUPER_ADMIN,
+    UserRole.ADMIN,
+    UserRole.MANAGER,
+    UserRole.OPERATOR,
+  )
+  findOne(
+    @Param('id') id: string,
+    @CurrentUser() user: IAuthUser,
+  ): Observable<Point> {
     return this.pointsService
       .checkAccess(user.id, id, user.role as UserRole)
       .pipe(switchMap(() => this.pointsService.findByIdWithPlaylists(id)));
@@ -77,7 +90,9 @@ export class PointsController {
    */
   @Public()
   @Get('code/:code')
-  findByCode(@Param('code') code: string): Observable<{ id: string; name: string; code: string }> {
+  findByCode(
+    @Param('code') code: string,
+  ): Observable<{ id: string; name: string; code: string }> {
     return this.pointsService.findByCode(code).pipe(
       map((point) => ({
         id: point.id,
@@ -169,6 +184,8 @@ export class PointsController {
   @Post('heartbeat')
   @HttpCode(HttpStatus.OK)
   heartbeat(@Body() dto: PointHeartbeatDto): Observable<{ success: boolean }> {
-    return this.pointsService.heartbeat(dto).pipe(map(() => ({ success: true })));
+    return this.pointsService
+      .heartbeat(dto)
+      .pipe(map(() => ({ success: true })));
   }
 }

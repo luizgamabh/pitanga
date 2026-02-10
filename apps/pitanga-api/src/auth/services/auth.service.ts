@@ -1,8 +1,8 @@
 import {
-  Injectable,
   BadRequestException,
-  UnauthorizedException,
   ForbiddenException,
+  Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../database';
@@ -11,12 +11,12 @@ import { TokenService } from './token.service';
 import { VerificationService } from './verification.service';
 import { TwoFactorService } from './two-factor.service';
 import {
-  RegisterDto,
-  LoginDto,
   IAuthResponse,
   ILoginResponse,
-  IUserProfile,
   ITokenPair,
+  IUserProfile,
+  LoginDto,
+  RegisterDto,
 } from '@pitanga/auth-types';
 
 @Injectable()
@@ -264,7 +264,9 @@ export class AuthService {
     });
 
     if (!user || !user.password) {
-      throw new BadRequestException('Cannot change password for OAuth-only account');
+      throw new BadRequestException(
+        'Cannot change password for OAuth-only account',
+      );
     }
 
     const passwordValid = await this.passwordService.compare(
@@ -304,7 +306,9 @@ export class AuthService {
     }
 
     if (user.password) {
-      throw new BadRequestException('Password already set. Use change password instead.');
+      throw new BadRequestException(
+        'Password already set. Use change password instead.',
+      );
     }
 
     const validation = this.passwordService.validate(password);

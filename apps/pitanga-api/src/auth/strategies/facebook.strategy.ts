@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, Profile } from 'passport-facebook';
+import { Profile, Strategy } from 'passport-facebook';
 import { IOAuthProfile } from '@pitanga/auth-types';
 
 @Injectable()

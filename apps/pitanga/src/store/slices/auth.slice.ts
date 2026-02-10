@@ -85,7 +85,10 @@ const authSlice = createSlice({
       state.twoFactorToken = null;
     },
 
-    loginTwoFactorRequired: (state, action: PayloadAction<TwoFactorRequiredPayload>) => {
+    loginTwoFactorRequired: (
+      state,
+      action: PayloadAction<TwoFactorRequiredPayload>,
+    ) => {
       state.status = 'idle';
       state.twoFactorRequired = true;
       state.twoFactorToken = action.payload.twoFactorToken;

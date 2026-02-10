@@ -5,16 +5,21 @@
  * @author Luiz Gama
  */
 import { Action } from '@reduxjs/toolkit';
-import { Observable, of, from } from 'rxjs';
-import { filter, switchMap, map, catchError, tap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { authActions } from '../slices/auth.slice';
-import { RootState, EpicDependencies } from '../types';
-import { IAuthUser, IUserProfile, ILoginResponse, IAuthResponse } from '@pitanga/auth-types';
+import { EpicDependencies, RootState } from '../types';
+import {
+  IAuthResponse,
+  IAuthUser,
+  ILoginResponse,
+  IUserProfile,
+} from '@pitanga/auth-types';
 
 type Epic = (
   action$: Observable<Action>,
   state$: Observable<RootState>,
-  dependencies: EpicDependencies
+  dependencies: EpicDependencies,
 ) => Observable<Action>;
 
 /**
@@ -33,13 +38,13 @@ export const initAuthEpic: Epic = (action$, _state$, { api }) =>
             }),
             tap(() => {
               // This will be handled by the next action in the stream
-            })
-          )
+            }),
+          ),
         ),
         map((action) => action),
-        catchError(() => of(authActions.noSession()))
-      )
-    )
+        catchError(() => of(authActions.noSession())),
+      ),
+    ),
   );
 
 /**
@@ -52,10 +57,14 @@ export const sessionLoadedEpic: Epic = (action$, _state$, { api }) =>
       from(api.auth.getProfile() as Promise<IUserProfile>).pipe(
         map((profile) => authActions.profileLoaded(profile)),
         catchError((error) =>
-          of(authActions.profileLoadFailure(error?.message || 'Failed to load profile'))
-        )
-      )
-    )
+          of(
+            authActions.profileLoadFailure(
+              error?.message || 'Failed to load profile',
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
 /**
@@ -65,7 +74,12 @@ export const loginEpic: Epic = (action$, _state$, { api }) =>
   action$.pipe(
     filter(authActions.login.match),
     switchMap((action) =>
-      from(api.auth.login(action.payload.email, action.payload.password) as Promise<ILoginResponse>).pipe(
+      from(
+        api.auth.login(
+          action.payload.email,
+          action.payload.password,
+        ) as Promise<ILoginResponse>,
+      ).pipe(
         map((response) => {
           if (response.requiresTwoFactor && response.twoFactorToken) {
             return authActions.loginTwoFactorRequired({
@@ -78,10 +92,10 @@ export const loginEpic: Epic = (action$, _state$, { api }) =>
           });
         }),
         catchError((error) =>
-          of(authActions.loginFailure(error?.message || 'Login failed'))
-        )
-      )
-    )
+          of(authActions.loginFailure(error?.message || 'Login failed')),
+        ),
+      ),
+    ),
   );
 
 /**
@@ -95,20 +109,24 @@ export const registerEpic: Epic = (action$, _state$, { api }) =>
         api.auth.register(
           action.payload.email,
           action.payload.password,
-          action.payload.name
-        ) as Promise<IAuthResponse>
+          action.payload.name,
+        ) as Promise<IAuthResponse>,
       ).pipe(
         map((response) =>
           authActions.registerSuccess({
             user: response.user,
             accessToken: response.accessToken,
-          })
+          }),
         ),
         catchError((error) =>
-          of(authActions.registerFailure(error?.message || 'Registration failed'))
-        )
-      )
-    )
+          of(
+            authActions.registerFailure(
+              error?.message || 'Registration failed',
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
 /**
@@ -121,10 +139,10 @@ export const logoutEpic: Epic = (action$, _state$, { api }) =>
       from(api.auth.logout()).pipe(
         map(() => authActions.logoutSuccess()),
         catchError((error) =>
-          of(authActions.logoutFailure(error?.message || 'Logout failed'))
-        )
-      )
-    )
+          of(authActions.logoutFailure(error?.message || 'Logout failed')),
+        ),
+      ),
+    ),
   );
 
 /**
@@ -137,10 +155,14 @@ export const loadProfileEpic: Epic = (action$, _state$, { api }) =>
       from(api.auth.getProfile() as Promise<IUserProfile>).pipe(
         map((profile) => authActions.profileLoaded(profile)),
         catchError((error) =>
-          of(authActions.profileLoadFailure(error?.message || 'Failed to load profile'))
-        )
-      )
-    )
+          of(
+            authActions.profileLoadFailure(
+              error?.message || 'Failed to load profile',
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
 // Export all auth epics

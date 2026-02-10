@@ -1,14 +1,14 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
   HttpCode,
   HttpStatus,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { VerificationService } from '../services';
 import { JwtAuthGuard } from '../guards';
-import { Public, CurrentUser } from '../decorators';
+import { CurrentUser, Public } from '../decorators';
 import { VerifyEmailDto } from '@pitanga/auth-types';
 
 @Controller('auth')

@@ -1,14 +1,11 @@
 import {
-  Injectable,
   ExecutionContext,
-  ServiceUnavailableException,
   Inject,
+  Injectable,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  OAUTH_PROVIDERS_CONFIG,
-  OAuthProviderConfig,
-} from '../config';
+import { OAUTH_PROVIDERS_CONFIG, OAuthProviderConfig } from '../config';
 
 @Injectable()
 export class FacebookOAuthGuard extends AuthGuard('facebook') {

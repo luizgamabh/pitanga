@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../store';
-import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Input } from '../../../presentation/components/catalyst/input';
-import { Field, Label } from '../../../presentation/components/catalyst/fieldset';
+import {
+  Field,
+  Label,
+} from '../../../presentation/components/catalyst/fieldset';
 import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';
 import { Link } from '../../../presentation/components/catalyst/link';
@@ -16,7 +18,15 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, api, isAuthenticated, error, twoFactorRequired, twoFactorToken, clearError } = useAuth();
+  const {
+    login,
+    api,
+    isAuthenticated,
+    error,
+    twoFactorRequired,
+    twoFactorToken,
+    clearError,
+  } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/dashboard';
@@ -64,8 +74,7 @@ function LoginForm() {
       <div className="text-center mb-8">
         <Heading level={1}>Entrar</Heading>
         <Text className="mt-2">
-          Não tem uma conta?{' '}
-          <Link href="/register">Criar conta</Link>
+          Não tem uma conta? <Link href="/register">Criar conta</Link>
         </Text>
       </div>
 

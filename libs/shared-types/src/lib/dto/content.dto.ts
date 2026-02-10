@@ -4,17 +4,17 @@
  * @author Luiz Gama
  */
 import {
-  IsString,
-  IsOptional,
-  IsEnum,
   IsBoolean,
+  IsEnum,
   IsNumber,
-  IsUrl,
   IsObject,
-  MinLength,
+  IsOptional,
+  IsString,
+  IsUrl,
   MaxLength,
-  ValidateNested,
   Min,
+  MinLength,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContentType } from '../enums/content.enum';

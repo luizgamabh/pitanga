@@ -31,9 +31,7 @@ export default function DashboardPage() {
           <Heading level={2}>
             Bem-vindo{profile?.name ? `, ${profile.name}` : ''}!
           </Heading>
-          <Text className="mt-2">
-            Você está logado com sucesso.
-          </Text>
+          <Text className="mt-2">Você está logado com sucesso.</Text>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">

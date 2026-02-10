@@ -11,13 +11,15 @@ const stats = [
 
 const testimonials = [
   {
-    quote: 'Antes eu gastava horas imprimindo cartazes. Agora atualizo tudo em minutos.',
+    quote:
+      'Antes eu gastava horas imprimindo cartazes. Agora atualizo tudo em minutos.',
     author: 'Maria Silva',
     role: 'Proprietária de lanchonete',
     image: null,
   },
   {
-    quote: 'Meus clientes comentam das promoções que veem na TV. Isso não acontecia com os cartazes.',
+    quote:
+      'Meus clientes comentam das promoções que veem na TV. Isso não acontecia com os cartazes.',
     author: 'João Santos',
     role: 'Gerente de supermercado',
     image: null,
@@ -72,7 +74,10 @@ export function SocialProof() {
                 <div className="mt-4 flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-pitanga-100 dark:bg-pitanga-900/30 flex items-center justify-center">
                     <span className="text-sm font-semibold text-pitanga-600 dark:text-pitanga-400">
-                      {testimonial.author.split(' ').map(n => n[0]).join('')}
+                      {testimonial.author
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')}
                     </span>
                   </div>
                   <div>

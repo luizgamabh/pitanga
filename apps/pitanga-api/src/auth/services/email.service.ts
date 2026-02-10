@@ -109,7 +109,10 @@ export class EmailService {
       this.logger.log(`Password reset email sent to ${email}`);
       return true;
     } catch (error) {
-      this.logger.error(`Failed to send password reset email to ${email}`, error);
+      this.logger.error(
+        `Failed to send password reset email to ${email}`,
+        error,
+      );
       return false;
     }
   }

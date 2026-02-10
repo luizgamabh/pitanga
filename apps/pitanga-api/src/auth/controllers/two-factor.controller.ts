@@ -1,24 +1,24 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
   HttpCode,
   HttpStatus,
-  UseGuards,
+  Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { AuthService, TwoFactorService, PasswordService } from '../services';
+import { AuthService, PasswordService, TwoFactorService } from '../services';
 import { JwtAuthGuard } from '../guards';
-import { Public, CurrentUser } from '../decorators';
+import { CurrentUser, Public } from '../decorators';
 import {
-  Enable2FADto,
-  Verify2FADto,
-  Disable2FADto,
-  ITwoFactorSetup,
-  IAuthResponse,
   AUTH_CONSTANTS,
+  Disable2FADto,
+  Enable2FADto,
+  IAuthResponse,
+  ITwoFactorSetup,
+  Verify2FADto,
 } from '@pitanga/auth-types';
 
 @Controller('auth/2fa')

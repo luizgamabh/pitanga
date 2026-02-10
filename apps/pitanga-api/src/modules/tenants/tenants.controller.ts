@@ -4,24 +4,24 @@
  * @author Luiz Gama
  */
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
-  Param,
-  UseGuards,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Tenant, UserRole } from '@prisma/client';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto, UpdateTenantDto } from '@pitanga/shared-types';
 import { JwtAuthGuard, RolesGuard } from '../../auth/guards';
-import { Roles, CurrentUser } from '../../auth/decorators';
+import { CurrentUser, Roles } from '../../auth/decorators';
 import { IAuthUser } from '@pitanga/auth-types';
 
 @Controller('tenants')

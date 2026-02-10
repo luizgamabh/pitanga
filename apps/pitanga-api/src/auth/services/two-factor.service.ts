@@ -1,9 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { generateSecret, verify, generateURI, VerifyOptions } from 'otplib';
+import { generateSecret, generateURI, verify, VerifyOptions } from 'otplib';
 import * as QRCode from 'qrcode';
 import { PrismaService } from '../../database';
-import { ITwoFactorSetup, AUTH_CONSTANTS } from '@pitanga/auth-types';
+import { AUTH_CONSTANTS, ITwoFactorSetup } from '@pitanga/auth-types';
 
 @Injectable()
 export class TwoFactorService {
@@ -106,10 +106,15 @@ export class TwoFactorService {
 
     // Verify password
     if (!user.password) {
-      throw new BadRequestException('Cannot disable 2FA for OAuth-only account');
+      throw new BadRequestException(
+        'Cannot disable 2FA for OAuth-only account',
+      );
     }
 
-    const passwordValid = await passwordService.compare(password, user.password);
+    const passwordValid = await passwordService.compare(
+      password,
+      user.password,
+    );
     if (!passwordValid) {
       throw new BadRequestException('Invalid password');
     }

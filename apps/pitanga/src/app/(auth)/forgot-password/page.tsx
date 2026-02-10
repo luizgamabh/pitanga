@@ -5,7 +5,10 @@ import { useAuth } from '../../../store';
 import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Input } from '../../../presentation/components/catalyst/input';
-import { Field, Label } from '../../../presentation/components/catalyst/fieldset';
+import {
+  Field,
+  Label,
+} from '../../../presentation/components/catalyst/fieldset';
 import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';
 import { Link } from '../../../presentation/components/catalyst/link';
@@ -58,8 +61,8 @@ export default function ForgotPasswordPage() {
           Email enviado!
         </Heading>
         <Text className="mt-2">
-          Se existe uma conta com o email <strong>{email}</strong>, você receberá um
-          link para redefinir sua senha.
+          Se existe uma conta com o email <strong>{email}</strong>, você
+          receberá um link para redefinir sua senha.
         </Text>
         <Text className="mt-4 text-sm text-zinc-500">
           Não recebeu o email? Verifique sua caixa de spam ou{' '}

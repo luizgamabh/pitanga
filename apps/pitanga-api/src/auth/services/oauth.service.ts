@@ -15,7 +15,11 @@ export class OAuthService {
     profile: IOAuthProfile,
     provider: OAuthProvider,
     deviceInfo?: { userAgent?: string; ipAddress?: string },
-  ): Promise<{ user: { id: string; email: string; name: string | null }; tokens: ITokenPair; isNewUser: boolean }> {
+  ): Promise<{
+    user: { id: string; email: string; name: string | null };
+    tokens: ITokenPair;
+    isNewUser: boolean;
+  }> {
     // Check if OAuth account exists
     const existingOAuthAccount = await this.prisma.oAuthAccount.findUnique({
       where: {

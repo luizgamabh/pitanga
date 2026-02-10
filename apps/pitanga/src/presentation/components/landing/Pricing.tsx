@@ -55,7 +55,10 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="precos" className="py-24 sm:py-32 bg-gray-50 dark:bg-gray-800/50">
+    <section
+      id="precos"
+      className="py-24 sm:py-32 bg-gray-50 dark:bg-gray-800/50"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-base/7 font-semibold text-pitanga-600 dark:text-pitanga-400">
@@ -65,7 +68,8 @@ export function Pricing() {
             Investimento que se paga
           </p>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Escolha o plano ideal para o tamanho do seu negócio. Sem surpresas, sem taxas escondidas.
+            Escolha o plano ideal para o tamanho do seu negócio. Sem surpresas,
+            sem taxas escondidas.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             Valores para contrato anual. Hardware vendido separadamente.
@@ -85,7 +89,7 @@ export function Pricing() {
                   'relative rounded-2xl p-8',
                   plan.highlighted
                     ? 'bg-gray-900 dark:bg-gray-950 ring-2 ring-pitanga-500'
-                    : 'bg-white dark:bg-gray-900 ring-1 ring-gray-900/5 dark:ring-white/10'
+                    : 'bg-white dark:bg-gray-900 ring-1 ring-gray-900/5 dark:ring-white/10',
                 )}
               >
                 {plan.highlighted && (
@@ -99,7 +103,9 @@ export function Pricing() {
                 <h3
                   className={clsx(
                     'text-lg font-semibold',
-                    plan.highlighted ? 'text-white' : 'text-gray-900 dark:text-white'
+                    plan.highlighted
+                      ? 'text-white'
+                      : 'text-gray-900 dark:text-white',
                   )}
                 >
                   {plan.name}
@@ -107,7 +113,9 @@ export function Pricing() {
                 <p
                   className={clsx(
                     'mt-1 text-sm',
-                    plan.highlighted ? 'text-gray-300' : 'text-gray-600 dark:text-gray-400'
+                    plan.highlighted
+                      ? 'text-gray-300'
+                      : 'text-gray-600 dark:text-gray-400',
                   )}
                 >
                   {plan.description}
@@ -117,7 +125,9 @@ export function Pricing() {
                   <span
                     className={clsx(
                       'text-4xl font-bold',
-                      plan.highlighted ? 'text-white' : 'text-gray-900 dark:text-white'
+                      plan.highlighted
+                        ? 'text-white'
+                        : 'text-gray-900 dark:text-white',
                     )}
                   >
                     {plan.price.startsWith('Sob') ? '' : 'R$ '}
@@ -126,7 +136,9 @@ export function Pricing() {
                   <span
                     className={clsx(
                       'text-sm',
-                      plan.highlighted ? 'text-gray-300' : 'text-gray-600 dark:text-gray-400'
+                      plan.highlighted
+                        ? 'text-gray-300'
+                        : 'text-gray-600 dark:text-gray-400',
                     )}
                   >
                     {plan.period}
@@ -139,13 +151,17 @@ export function Pricing() {
                       <CheckIcon
                         className={clsx(
                           'h-5 w-5 shrink-0',
-                          plan.highlighted ? 'text-pitanga-400' : 'text-pitanga-600 dark:text-pitanga-400'
+                          plan.highlighted
+                            ? 'text-pitanga-400'
+                            : 'text-pitanga-600 dark:text-pitanga-400',
                         )}
                       />
                       <span
                         className={clsx(
                           'text-sm',
-                          plan.highlighted ? 'text-gray-300' : 'text-gray-600 dark:text-gray-400'
+                          plan.highlighted
+                            ? 'text-gray-300'
+                            : 'text-gray-600 dark:text-gray-400',
                         )}
                       >
                         {feature}
@@ -160,7 +176,7 @@ export function Pricing() {
                     'mt-8 block w-full rounded-md px-4 py-3 text-center text-sm font-semibold transition-colors',
                     plan.highlighted
                       ? 'bg-pitanga-500 text-white hover:bg-pitanga-400'
-                      : 'bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100'
+                      : 'bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100',
                   )}
                 >
                   {plan.cta}
@@ -178,7 +194,8 @@ export function Pricing() {
           className="mt-12 text-center"
         >
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Todos os planos incluem: ativação sem custo adicional e suporte técnico.
+            Todos os planos incluem: ativação sem custo adicional e suporte
+            técnico.
             <br />
             Consulte condições para contrato mensal e opções de hardware.
           </p>

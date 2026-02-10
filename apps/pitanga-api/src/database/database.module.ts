@@ -2,12 +2,12 @@ import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrismaService } from './prisma.service';
 import {
-  ScreenEvent,
-  ScreenEventSchema,
-  MediaPlayback,
-  MediaPlaybackSchema,
   AuditLog,
   AuditLogSchema,
+  MediaPlayback,
+  MediaPlaybackSchema,
+  ScreenEvent,
+  ScreenEventSchema,
   SystemMetric,
   SystemMetricSchema,
 } from './schemas';
@@ -16,7 +16,9 @@ import {
 @Module({
   imports: [
     // MongoDB via Mongoose
-    MongooseModule.forRoot(process.env.MONGODB_URL || 'mongodb://localhost:27017/pitanga'),
+    MongooseModule.forRoot(
+      process.env.MONGODB_URL || 'mongodb://localhost:27017/pitanga',
+    ),
     MongooseModule.forFeature([
       { name: ScreenEvent.name, schema: ScreenEventSchema },
       { name: MediaPlayback.name, schema: MediaPlaybackSchema },

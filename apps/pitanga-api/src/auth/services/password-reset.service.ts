@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database';
 import { TokenService } from './token.service';
 import { EmailService } from './email.service';
@@ -45,7 +45,11 @@ export class PasswordResetService {
       },
     });
 
-    await this.emailService.sendPasswordResetEmail(user.email, user.name, token);
+    await this.emailService.sendPasswordResetEmail(
+      user.email,
+      user.name,
+      token,
+    );
 
     return true;
   }

@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../../store';
 import { ApiError } from '@pitanga/api-client';
 import { Button } from '../../../../presentation/components/catalyst/button';
 import { Input } from '../../../../presentation/components/catalyst/input';
-import { Field, Label } from '../../../../presentation/components/catalyst/fieldset';
+import {
+  Field,
+  Label,
+} from '../../../../presentation/components/catalyst/fieldset';
 import { Heading } from '../../../../presentation/components/catalyst/heading';
 import { Text } from '../../../../presentation/components/catalyst/text';
 import { Link } from '../../../../presentation/components/catalyst/link';
@@ -106,7 +109,9 @@ function TwoFactorVerifyForm() {
           <Input
             type="text"
             value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            onChange={(e) =>
+              setCode(e.target.value.replace(/\D/g, '').slice(0, 6))
+            }
             required
             autoComplete="one-time-code"
             placeholder="000000"

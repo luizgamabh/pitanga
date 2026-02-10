@@ -24,6 +24,6 @@ export enum ContentType {
  */
 export enum ContentStatus {
   PROCESSING = 'PROCESSING', // Being processed (uploaded, transcoding)
-  READY = 'READY',           // Ready to use
-  ERROR = 'ERROR',           // Processing failed
+  READY = 'READY', // Ready to use
+  ERROR = 'ERROR', // Processing failed
 }

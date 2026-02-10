@@ -1,4 +1,4 @@
-import { Module, Logger } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -14,34 +14,34 @@ import {
 // Services
 import {
   AuthService,
+  EmailService,
+  OAuthService,
+  PasswordResetService,
   PasswordService,
   TokenService,
-  EmailService,
-  VerificationService,
-  PasswordResetService,
   TwoFactorService,
-  OAuthService,
+  VerificationService,
 } from './services';
 
 // Strategies
-import { JwtStrategy, GoogleStrategy, FacebookStrategy } from './strategies';
+import { FacebookStrategy, GoogleStrategy, JwtStrategy } from './strategies';
 
 // Guards
 import {
+  EmailVerifiedGuard,
+  FacebookOAuthGuard,
+  GoogleOAuthGuard,
   JwtAuthGuard,
   RolesGuard,
-  EmailVerifiedGuard,
-  GoogleOAuthGuard,
-  FacebookOAuthGuard,
 } from './guards';
 
 // Controllers
 import {
   AuthController,
   OAuthController,
-  VerificationController,
   PasswordController,
   TwoFactorController,
+  VerificationController,
 } from './controllers';
 
 const logger = new Logger('AuthModule');

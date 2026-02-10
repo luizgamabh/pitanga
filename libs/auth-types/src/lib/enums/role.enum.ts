@@ -4,9 +4,9 @@
  */
 export enum Role {
   SUPER_ADMIN = 'SUPER_ADMIN', // System administrator (Pitanga staff)
-  ADMIN = 'ADMIN',             // Tenant administrator
-  MANAGER = 'MANAGER',         // Can manage content and points
-  OPERATOR = 'OPERATOR',       // Can only view
+  ADMIN = 'ADMIN', // Tenant administrator
+  MANAGER = 'MANAGER', // Can manage content and points
+  OPERATOR = 'OPERATOR', // Can only view
 }
 
 /**

@@ -1,18 +1,24 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ShieldCheckIcon, SignalIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowPathIcon,
+  ShieldCheckIcon,
+  SignalIcon,
+} from '@heroicons/react/24/outline';
 
 const features = [
   {
     icon: ShieldCheckIcon,
     title: 'A TV nunca fica preta',
-    description: 'Mesmo em quedas de energia ou falhas, a TV volta sozinha exibindo o conteúdo.',
+    description:
+      'Mesmo em quedas de energia ou falhas, a TV volta sozinha exibindo o conteúdo.',
   },
   {
     icon: SignalIcon,
     title: 'Funciona sem internet',
-    description: 'Se a conexão cair, a TV continua exibindo. Sincroniza automaticamente quando voltar.',
+    description:
+      'Se a conexão cair, a TV continua exibindo. Sincroniza automaticamente quando voltar.',
   },
   {
     icon: ArrowPathIcon,

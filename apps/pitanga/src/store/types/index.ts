@@ -17,7 +17,7 @@ export type AppDispatch = typeof store.dispatch;
 export type AppEpic = (
   action$: Observable<Action>,
   state$: Observable<RootState>,
-  dependencies: EpicDependencies
+  dependencies: EpicDependencies,
 ) => Observable<Action>;
 
 // Dependencies injected into epics
@@ -25,7 +25,11 @@ export interface EpicDependencies {
   api: {
     auth: {
       login: (email: string, password: string) => Promise<unknown>;
-      register: (email: string, password: string, name?: string) => Promise<unknown>;
+      register: (
+        email: string,
+        password: string,
+        name?: string,
+      ) => Promise<unknown>;
       logout: () => Promise<void>;
       getSession: () => Promise<unknown>;
       getProfile: () => Promise<unknown>;

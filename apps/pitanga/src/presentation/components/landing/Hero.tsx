@@ -61,8 +61,9 @@ export function Hero() {
               </span>
             </h1>
             <p className="mt-6 text-lg/8 text-gray-600 dark:text-gray-300 text-pretty">
-              Atualize preços, promoções e destaques em segundos, direto do seu celular.
-              Sem técnico. Sem complicação. E funciona mesmo sem internet.
+              Atualize preços, promoções e destaques em segundos, direto do seu
+              celular. Sem técnico. Sem complicação. E funciona mesmo sem
+              internet.
             </p>
           </motion.div>
 
@@ -109,7 +110,11 @@ export function Hero() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="mx-auto h-16 w-16 rounded-full bg-pitanga-100 dark:bg-pitanga-900/50 flex items-center justify-center">
-                    <svg className="h-8 w-8 text-pitanga-600 dark:text-pitanga-400" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-8 w-8 text-pitanga-600 dark:text-pitanga-400"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>

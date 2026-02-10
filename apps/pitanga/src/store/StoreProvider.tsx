@@ -6,9 +6,9 @@
  *
  * @author Luiz Gama
  */
-import { useRef, useEffect, ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
-import { store, initializeEpics } from './store';
+import { initializeEpics, store } from './store';
 import { ApiClient } from '@pitanga/api-client';
 import { EpicDependencies } from './types';
 

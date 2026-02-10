@@ -4,12 +4,12 @@
  * @author Luiz Gama
  */
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  ForbiddenException,
 } from '@nestjs/common';
-import { Observable, from, throwError } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { PrismaService } from '../../database';
 import { Tenant, UserRole } from '@prisma/client';
 import { CreateTenantDto, UpdateTenantDto } from '@pitanga/shared-types';
@@ -137,7 +137,9 @@ export class TenantsService {
   /**
    * Get tenant with user counts and statistics
    */
-  findByIdWithStats(id: string): Observable<Tenant & { _count: { users: number; points: number } }> {
+  findByIdWithStats(
+    id: string,
+  ): Observable<Tenant & { _count: { users: number; points: number } }> {
     return from(
       this.prisma.tenant.findUnique({
         where: { id },

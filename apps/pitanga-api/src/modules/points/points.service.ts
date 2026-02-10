@@ -4,20 +4,20 @@
  * @author Luiz Gama
  */
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { Observable, from, of } from 'rxjs';
-import { map, switchMap, tap, catchError } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { PrismaService } from '../../database';
-import { Point, PointStatus, PointLogEvent, UserRole } from '@prisma/client';
+import { Point, PointLogEvent, PointStatus, UserRole } from '@prisma/client';
 import {
-  CreatePointDto,
-  UpdatePointDto,
   ActivatePointDto,
+  CreatePointDto,
   PointHeartbeatDto,
+  UpdatePointDto,
 } from '@pitanga/shared-types';
 import { generateActivationCode } from './utils/code-generator';
 

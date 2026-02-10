@@ -5,19 +5,19 @@
  * @author Luiz Gama
  */
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Observable, from, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  validateFile,
-  generateUniqueFilename,
   FileValidationResult,
+  generateUniqueFilename,
+  validateFile,
 } from './utils/file-validators';
 
 export interface UploadedFile {
@@ -169,6 +169,8 @@ export class StorageService {
       return fileUrl.replace('/images/', '/thumbnails/');
     }
     // For videos, we'd need to extract a frame
-    return fileUrl.replace('/videos/', '/thumbnails/').replace(/\.\w+$/, '.jpg');
+    return fileUrl
+      .replace('/videos/', '/thumbnails/')
+      .replace(/\.\w+$/, '.jpg');
   }
 }

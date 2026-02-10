@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database';
 import { TokenService } from './token.service';
 import { EmailService } from './email.service';
@@ -17,7 +17,8 @@ export class VerificationService {
     const hashedToken = this.tokenService.hashToken(token);
 
     const expiresAt = new Date(
-      Date.now() + AUTH_CONSTANTS.VERIFICATION_TOKEN_EXPIRY_HOURS * 60 * 60 * 1000,
+      Date.now() +
+        AUTH_CONSTANTS.VERIFICATION_TOKEN_EXPIRY_HOURS * 60 * 60 * 1000,
     );
 
     // Invalidate any existing verification tokens
@@ -51,10 +52,16 @@ export class VerificationService {
     }
 
     const token = await this.createVerificationToken(userId);
-    return this.emailService.sendVerificationEmail(user.email, user.name, token);
+    return this.emailService.sendVerificationEmail(
+      user.email,
+      user.name,
+      token,
+    );
   }
 
-  async verifyEmail(token: string): Promise<{ success: boolean; userId: string }> {
+  async verifyEmail(
+    token: string,
+  ): Promise<{ success: boolean; userId: string }> {
     const hashedToken = this.tokenService.hashToken(token);
 
     const verificationToken = await this.prisma.verificationToken.findUnique({

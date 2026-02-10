@@ -1,18 +1,18 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
   HttpCode,
   HttpStatus,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService, PasswordResetService } from '../services';
 import { JwtAuthGuard } from '../guards';
-import { Public, CurrentUser } from '../decorators';
+import { CurrentUser, Public } from '../decorators';
 import {
+  ChangePasswordDto,
   ForgotPasswordDto,
   ResetPasswordDto,
-  ChangePasswordDto,
 } from '@pitanga/auth-types';
 
 @Controller('auth')

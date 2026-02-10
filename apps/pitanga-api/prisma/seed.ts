@@ -5,7 +5,14 @@
  *
  * @author Luiz Gama
  */
-import { PrismaClient, UserRole, TenantGroupType, ContentType, PointStatus, PointOrientation } from '@prisma/client';
+import {
+  ContentType,
+  PointOrientation,
+  PointStatus,
+  PrismaClient,
+  TenantGroupType,
+  UserRole,
+} from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();

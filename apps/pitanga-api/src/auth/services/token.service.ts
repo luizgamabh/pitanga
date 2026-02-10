@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { randomBytes, createHash } from 'crypto';
+import { createHash, randomBytes } from 'crypto';
 import {
-  ITokenPayload,
+  AUTH_CONSTANTS,
   IRefreshTokenPayload,
   ITokenPair,
-  AUTH_CONSTANTS,
+  ITokenPayload,
 } from '@pitanga/auth-types';
 import { UserRole } from '@prisma/client';
 import { PrismaService } from '../../database';
@@ -95,9 +95,8 @@ export class TokenService {
     deviceInfo?: { userAgent?: string; ipAddress?: string },
   ): Promise<ITokenPair | null> {
     try {
-      const payload = await this.jwtService.verifyAsync<IRefreshTokenPayload>(
-        refreshToken,
-      );
+      const payload =
+        await this.jwtService.verifyAsync<IRefreshTokenPayload>(refreshToken);
 
       if (payload.type !== 'refresh') {
         return null;
@@ -138,9 +137,8 @@ export class TokenService {
 
   async revokeRefreshToken(refreshToken: string): Promise<boolean> {
     try {
-      const payload = await this.jwtService.verifyAsync<IRefreshTokenPayload>(
-        refreshToken,
-      );
+      const payload =
+        await this.jwtService.verifyAsync<IRefreshTokenPayload>(refreshToken);
 
       const hashedToken = this.hashToken(payload.token);
 

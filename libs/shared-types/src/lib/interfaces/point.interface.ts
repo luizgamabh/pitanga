@@ -3,7 +3,11 @@
  *
  * @author Luiz Gama
  */
-import { PointOrientation, PointStatus, PointLogEvent } from '../enums/point.enum';
+import {
+  PointLogEvent,
+  PointOrientation,
+  PointStatus,
+} from '../enums/point.enum';
 
 /**
  * Full point entity

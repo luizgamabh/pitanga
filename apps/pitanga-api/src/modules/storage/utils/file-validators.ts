@@ -66,7 +66,8 @@ export function validateFile(
   }
 
   // Check file size
-  const maxSize = fileType === 'image' ? MAX_FILE_SIZES.image : MAX_FILE_SIZES.video;
+  const maxSize =
+    fileType === 'image' ? MAX_FILE_SIZES.image : MAX_FILE_SIZES.video;
   if (fileSize > maxSize) {
     const maxSizeMB = maxSize / (1024 * 1024);
     const fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);

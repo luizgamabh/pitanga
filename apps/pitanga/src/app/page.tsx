@@ -1,16 +1,16 @@
 import {
+  Benefits,
+  FAQ,
+  FinalCTA,
+  Footer,
   Header,
   Hero,
   HowItWorks,
-  Benefits,
-  Segments,
-  Reliability,
-  SocialProof,
-  Simulator,
-  FAQ,
   Pricing,
-  FinalCTA,
-  Footer,
+  Reliability,
+  Segments,
+  Simulator,
+  SocialProof,
 } from '../presentation/components/landing';
 
 export default function LandingPage() {

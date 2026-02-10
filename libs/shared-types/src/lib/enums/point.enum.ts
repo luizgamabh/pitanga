@@ -17,9 +17,9 @@ export enum PointOrientation {
  * Point status lifecycle
  */
 export enum PointStatus {
-  PENDING = 'PENDING',       // Created but not activated
-  ONLINE = 'ONLINE',         // Active and connected
-  OFFLINE = 'OFFLINE',       // Activated but not sending heartbeats
+  PENDING = 'PENDING', // Created but not activated
+  ONLINE = 'ONLINE', // Active and connected
+  OFFLINE = 'OFFLINE', // Activated but not sending heartbeats
   MAINTENANCE = 'MAINTENANCE', // Temporarily disabled
 }
 

@@ -67,7 +67,9 @@ export function Segments() {
                     <div className="flex gap-3">
                       <div className="shrink-0 mt-1">
                         <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                          <span className="text-xs text-red-600 dark:text-red-400">✕</span>
+                          <span className="text-xs text-red-600 dark:text-red-400">
+                            ✕
+                          </span>
                         </div>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -78,7 +80,9 @@ export function Segments() {
                     <div className="flex gap-3">
                       <div className="shrink-0 mt-1">
                         <div className="h-5 w-5 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                          <span className="text-xs text-green-600 dark:text-green-400">✓</span>
+                          <span className="text-xs text-green-600 dark:text-green-400">
+                            ✓
+                          </span>
                         </div>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">

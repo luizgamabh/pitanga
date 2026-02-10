@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../store';
 import { ApiError } from '@pitanga/api-client';
@@ -9,7 +9,9 @@ import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';
 
 function VerifyEmailContent() {
-  const [status, setStatus] = useState<'pending' | 'verifying' | 'success' | 'error'>('pending');
+  const [status, setStatus] = useState<
+    'pending' | 'verifying' | 'success' | 'error'
+  >('pending');
   const [error, setError] = useState('');
   const [isResending, setIsResending] = useState(false);
   const { api } = useAuth();
@@ -191,11 +193,7 @@ function VerifyEmailContent() {
         Não recebeu o email? Verifique sua caixa de spam ou
       </Text>
       <div className="mt-4">
-        <Button
-          onClick={handleResend}
-          outline
-          disabled={isResending}
-        >
+        <Button onClick={handleResend} outline disabled={isResending}>
           {isResending ? 'Enviando...' : 'Reenviar email'}
         </Button>
       </div>

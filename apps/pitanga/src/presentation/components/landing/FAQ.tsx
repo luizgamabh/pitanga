@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -78,7 +78,9 @@ export function FAQ() {
             {faqs.map((faq, index) => (
               <div key={index} className="py-4">
                 <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
                   className="flex w-full items-start justify-between text-left"
                 >
                   <span className="text-base font-semibold text-gray-900 dark:text-white">
@@ -88,7 +90,7 @@ export function FAQ() {
                     <ChevronDownIcon
                       className={clsx(
                         'h-5 w-5 text-gray-500 transition-transform duration-200',
-                        openIndex === index && 'rotate-180'
+                        openIndex === index && 'rotate-180',
                       )}
                     />
                   </span>

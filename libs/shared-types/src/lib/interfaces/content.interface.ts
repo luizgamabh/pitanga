@@ -3,7 +3,7 @@
  *
  * @author Luiz Gama
  */
-import { ContentType, ContentStatus } from '../enums/content.enum';
+import { ContentStatus, ContentType } from '../enums/content.enum';
 
 /**
  * Full content entity

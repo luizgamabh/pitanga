@@ -4,15 +4,15 @@
  * @author Luiz Gama
  */
 import {
-  IsString,
-  IsOptional,
   IsBoolean,
   IsNumber,
+  IsOptional,
+  IsString,
   IsUrl,
-  MinLength,
+  Max,
   MaxLength,
   Min,
-  Max,
+  MinLength,
 } from 'class-validator';
 
 export class CreatePriceTableDto {

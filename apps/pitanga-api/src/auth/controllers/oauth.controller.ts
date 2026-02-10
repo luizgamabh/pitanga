@@ -3,11 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { OAuthProvider } from '@prisma/client';
 import { OAuthService } from '../services';
-import { GoogleOAuthGuard, FacebookOAuthGuard } from '../guards';
+import { FacebookOAuthGuard, GoogleOAuthGuard } from '../guards';
 import { Public } from '../decorators';
-import { IOAuthProfile, AUTH_CONSTANTS } from '@pitanga/auth-types';
-import { OAUTH_PROVIDERS_CONFIG } from '../config';
+import { AUTH_CONSTANTS, IOAuthProfile } from '@pitanga/auth-types';
 import type { OAuthProviderConfig } from '../config';
+import { OAUTH_PROVIDERS_CONFIG } from '../config';
 
 @Controller('auth')
 export class OAuthController {

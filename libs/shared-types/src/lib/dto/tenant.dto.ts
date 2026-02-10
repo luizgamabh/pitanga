@@ -4,13 +4,13 @@
  * @author Luiz Gama
  */
 import {
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsEmail,
   IsBoolean,
-  MinLength,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
   MaxLength,
+  MinLength,
 } from 'class-validator';
 import { TenantGroupType } from '../enums/tenant.enum';
 

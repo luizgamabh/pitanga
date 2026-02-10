@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../store';
 import { Button } from '../../../presentation/components/catalyst/button';
 import { Input } from '../../../presentation/components/catalyst/input';
-import { Field, Label } from '../../../presentation/components/catalyst/fieldset';
+import {
+  Field,
+  Label,
+} from '../../../presentation/components/catalyst/fieldset';
 import { Heading } from '../../../presentation/components/catalyst/heading';
 import { Text } from '../../../presentation/components/catalyst/text';
 import { Link } from '../../../presentation/components/catalyst/link';
@@ -67,8 +70,7 @@ export default function RegisterPage() {
       <div className="text-center mb-8">
         <Heading level={1}>Criar conta</Heading>
         <Text className="mt-2">
-          Já tem uma conta?{' '}
-          <Link href="/login">Entrar</Link>
+          Já tem uma conta? <Link href="/login">Entrar</Link>
         </Text>
       </div>
 
@@ -113,7 +115,8 @@ export default function RegisterPage() {
             placeholder="••••••••"
           />
           <Text className="mt-1 text-xs text-zinc-500">
-            Mínimo 8 caracteres, com letra maiúscula, minúscula, número e caractere especial
+            Mínimo 8 caracteres, com letra maiúscula, minúscula, número e
+            caractere especial
           </Text>
         </Field>
 

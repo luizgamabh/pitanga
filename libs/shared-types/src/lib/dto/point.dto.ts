@@ -4,22 +4,21 @@
  * @author Luiz Gama
  */
 import {
-  IsString,
-  IsOptional,
-  IsEnum,
+  IsArray,
   IsBoolean,
-  IsNumber,
-  MinLength,
-  MaxLength,
-  Matches,
+  IsEnum,
   IsLatitude,
   IsLongitude,
-  IsArray,
-  Min,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
   Max,
+  MaxLength,
+  Min,
+  MinLength,
 } from 'class-validator';
 import { PointOrientation } from '../enums/point.enum';
-
 
 export class CreatePointDto {
   @IsString()
@@ -38,7 +37,9 @@ export class CreatePointDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^\d{3,4}x\d{3,4}$/, { message: 'Resolution must be in format WIDTHxHEIGHT (e.g., 1920x1080)' })
+  @Matches(/^\d{3,4}x\d{3,4}$/, {
+    message: 'Resolution must be in format WIDTHxHEIGHT (e.g., 1920x1080)',
+  })
   resolution?: string;
 
   @IsOptional()
@@ -73,7 +74,9 @@ export class UpdatePointDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^\d{3,4}x\d{3,4}$/, { message: 'Resolution must be in format WIDTHxHEIGHT (e.g., 1920x1080)' })
+  @Matches(/^\d{3,4}x\d{3,4}$/, {
+    message: 'Resolution must be in format WIDTHxHEIGHT (e.g., 1920x1080)',
+  })
   resolution?: string;
 
   @IsOptional()
@@ -158,12 +161,16 @@ export class AssignPlaylistDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   startTime?: string;
 
   @IsOptional()
   @IsString()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:mm format' })
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'Time must be in HH:mm format',
+  })
   endTime?: string;
 
   @IsOptional()

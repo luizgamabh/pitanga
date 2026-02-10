@@ -1,20 +1,20 @@
 import { HttpClient } from '../http-client';
 import type {
-  RegisterDto,
-  LoginDto,
-  ForgotPasswordDto,
-  ResetPasswordDto,
   ChangePasswordDto,
-  VerifyEmailDto,
-  Enable2FADto,
-  Verify2FADto,
   Disable2FADto,
+  Enable2FADto,
+  ForgotPasswordDto,
   IAuthResponse,
+  IAuthUser,
   ILoginResponse,
   ITokenPair,
-  IUserProfile,
-  IAuthUser,
   ITwoFactorSetup,
+  IUserProfile,
+  LoginDto,
+  RegisterDto,
+  ResetPasswordDto,
+  Verify2FADto,
+  VerifyEmailDto,
 } from '@pitanga/auth-types';
 
 export class AuthApi {
@@ -56,14 +56,19 @@ export class AuthApi {
   // Email Verification
   // ==========================================
 
-  async verifyEmail(dto: VerifyEmailDto): Promise<{ success: boolean; message: string }> {
+  async verifyEmail(
+    dto: VerifyEmailDto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/verify-email',
       dto,
     );
   }
 
-  async resendVerificationEmail(): Promise<{ success: boolean; message: string }> {
+  async resendVerificationEmail(): Promise<{
+    success: boolean;
+    message: string;
+  }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/resend-verification',
     );
@@ -73,28 +78,36 @@ export class AuthApi {
   // Password
   // ==========================================
 
-  async forgotPassword(dto: ForgotPasswordDto): Promise<{ success: boolean; message: string }> {
+  async forgotPassword(
+    dto: ForgotPasswordDto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/forgot-password',
       dto,
     );
   }
 
-  async resetPassword(dto: ResetPasswordDto): Promise<{ success: boolean; message: string }> {
+  async resetPassword(
+    dto: ResetPasswordDto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/reset-password',
       dto,
     );
   }
 
-  async changePassword(dto: ChangePasswordDto): Promise<{ success: boolean; message: string }> {
+  async changePassword(
+    dto: ChangePasswordDto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/change-password',
       dto,
     );
   }
 
-  async setPassword(password: string): Promise<{ success: boolean; message: string }> {
+  async setPassword(
+    password: string,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/set-password',
       { password },
@@ -109,7 +122,9 @@ export class AuthApi {
     return this.http.post<ITwoFactorSetup>('/auth/2fa/generate');
   }
 
-  async enable2FA(dto: Enable2FADto): Promise<{ success: boolean; message: string }> {
+  async enable2FA(
+    dto: Enable2FADto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/2fa/enable',
       dto,
@@ -120,7 +135,9 @@ export class AuthApi {
     return this.http.post<IAuthResponse>('/auth/2fa/verify', dto);
   }
 
-  async disable2FA(dto: Disable2FADto): Promise<{ success: boolean; message: string }> {
+  async disable2FA(
+    dto: Disable2FADto,
+  ): Promise<{ success: boolean; message: string }> {
     return this.http.post<{ success: boolean; message: string }>(
       '/auth/2fa/disable',
       dto,
