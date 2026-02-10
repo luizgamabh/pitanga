@@ -6,7 +6,7 @@
  */
 import { Action } from '@reduxjs/toolkit';
 import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { authActions } from '../slices/auth.slice';
 import { EpicDependencies, RootState } from '../types';
 import {
@@ -32,16 +32,14 @@ export const initAuthEpic: Epic = (action$, _state$, { api }) =>
       from(api.auth.getSession() as Promise<IAuthUser>).pipe(
         switchMap((user) =>
           from(api.auth.getProfile() as Promise<IUserProfile>).pipe(
-            map((profile) => {
-              // Dispatch both session and profile loaded
-              return authActions.profileLoaded(profile);
-            }),
-            tap(() => {
-              // This will be handled by the next action in the stream
-            }),
+            switchMap((profile) =>
+              of(
+                authActions.sessionLoaded(user),
+                authActions.profileLoaded(profile),
+              ),
+            ),
           ),
         ),
-        map((action) => action),
         catchError(() => of(authActions.noSession())),
       ),
     ),

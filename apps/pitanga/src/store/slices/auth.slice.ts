@@ -26,7 +26,7 @@ const initialState: AuthState = {
   profile: null,
   accessToken: null,
   isAuthenticated: false,
-  status: 'idle',
+  status: 'loading',
   error: null,
   twoFactorRequired: false,
   twoFactorToken: null,
@@ -61,9 +61,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // Initialize auth - check session
+    // Initialize auth - check session (only show loading on first check)
     initAuth: (state) => {
-      state.status = 'loading';
+      if (!state.isAuthenticated) {
+        state.status = 'loading';
+      }
       state.error = null;
     },
 

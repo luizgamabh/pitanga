@@ -3,7 +3,7 @@
  *
  * @author Luiz Gama
  */
-export { store, initializeEpics, apiClient } from './store';
+export { store, apiClient } from './store';
 export type { RootState, AppDispatch } from './store';
 export { useAppDispatch, useAppSelector } from './hooks';
 export { authActions } from './slices';

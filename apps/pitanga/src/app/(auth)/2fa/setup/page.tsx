@@ -157,7 +157,7 @@ export default function TwoFactorSetupPage() {
           <Text className="mt-4 text-center text-sm text-zinc-500">
             Ou digite manualmente:
           </Text>
-          <div className="mt-2 rounded-lg bg-zinc-100 p-3 text-center font-mono text-sm dark:bg-zinc-800">
+          <div className="mt-2 rounded-lg bg-zinc-100 p-3 text-center font-mono text-sm text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100">
             {setup.secret}
           </div>
         </div>

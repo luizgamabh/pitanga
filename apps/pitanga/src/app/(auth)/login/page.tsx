@@ -100,7 +100,7 @@ function LoginForm() {
         <Field>
           <div className="flex items-center justify-between">
             <Label>Senha</Label>
-            <Link href="/forgot-password" className="text-sm">
+            <Link href="/forgot-password" className="text-sm text-pitanga-600 hover:text-pitanga-500 dark:text-pitanga-400 dark:hover:text-pitanga-300">
               Esqueceu a senha?
             </Link>
           </div>

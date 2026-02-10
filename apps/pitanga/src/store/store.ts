@@ -57,10 +57,8 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-// Function to initialize epics (run after store is ready)
-export const initializeEpics = () => {
-  epicMiddleware.run(rootEpic as never);
-};
+// Start epics immediately after store creation
+epicMiddleware.run(rootEpic as never);
 
 // Export store types
 export type RootState = ReturnType<typeof store.getState>;
