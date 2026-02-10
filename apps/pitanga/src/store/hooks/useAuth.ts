@@ -18,7 +18,7 @@ import {
   selectTwoFactorToken,
   selectUser,
 } from '../selectors';
-import { apiClient } from '../StoreProvider';
+import { apiClient } from '../store';
 
 export function useAuth() {
   const dispatch = useAppDispatch();
