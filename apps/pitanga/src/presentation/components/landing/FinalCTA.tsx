@@ -66,7 +66,7 @@ export function FinalCTA() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <Field>
-                  <Label className="text-gray-300">Nome *</Label>
+                  <Label className="!text-gray-300">Nome *</Label>
                   <Input
                     type="text"
                     required
@@ -76,7 +76,7 @@ export function FinalCTA() {
                   />
                 </Field>
                 <Field>
-                  <Label className="text-gray-300">Empresa</Label>
+                  <Label className="!text-gray-300">Empresa</Label>
                   <Input
                     type="text"
                     value={formData.company}
@@ -87,7 +87,7 @@ export function FinalCTA() {
               </div>
 
               <Field>
-                <Label className="text-gray-300">E-mail *</Label>
+                <Label className="!text-gray-300">E-mail *</Label>
                 <Input
                   type="email"
                   required
@@ -98,7 +98,7 @@ export function FinalCTA() {
               </Field>
 
               <Field>
-                <Label className="text-gray-300">Telefone/WhatsApp *</Label>
+                <Label className="!text-gray-300">Telefone/WhatsApp *</Label>
                 <Input
                   type="tel"
                   required
@@ -109,7 +109,7 @@ export function FinalCTA() {
               </Field>
 
               <Field>
-                <Label className="text-gray-300">Quantas telas você precisa?</Label>
+                <Label className="!text-gray-300">Quantas telas você precisa?</Label>
                 <Select
                   value={formData.screens}
                   onChange={(e) => setFormData({ ...formData, screens: e.target.value })}

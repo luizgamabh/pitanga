@@ -58,8 +58,8 @@ export function HowItWorks() {
                 className="relative z-10"
               >
                 <div className="relative flex flex-col items-center text-center">
-                  <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gray-900 ring-2 ring-pitanga-500">
-                    <step.icon className="h-10 w-10 text-pitanga-400 dark:text-pitanga-400" />
+                  <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gray-100 ring-2 ring-pitanga-500 dark:bg-gray-900">
+                    <step.icon className="h-10 w-10 text-pitanga-600 dark:text-pitanga-400" />
                   </div>
                   <span className="mt-4 text-sm font-semibold text-pitanga-600 dark:text-pitanga-400">
                     {step.number}

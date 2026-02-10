@@ -1,3 +1,5 @@
+import { ThemeToggle } from './ThemeToggle';
+
 export function Footer() {
   return (
     <footer className="bg-gray-950">
@@ -9,6 +11,7 @@ export function Footer() {
               alt="Pitanga"
               className="h-8 w-auto"
             />
+            <ThemeToggle />
           </div>
 
           <nav className="flex gap-6">
