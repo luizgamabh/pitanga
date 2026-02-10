@@ -37,7 +37,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
             logout: () => apiClient.auth.logout(),
             getSession: () => apiClient.auth.getSession(),
             getProfile: () => apiClient.auth.getProfile(),
-            refreshToken: () => apiClient.auth.refreshToken(),
+            refreshToken: () => apiClient.auth.refreshTokens(),
           },
         },
       };

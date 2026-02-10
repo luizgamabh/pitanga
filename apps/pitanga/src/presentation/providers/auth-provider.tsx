@@ -67,12 +67,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userProfile = await api.auth.getProfile();
       setProfile(userProfile);
       setUser({
+        tenantId: userProfile.tenantId,
         id: userProfile.id,
         email: userProfile.email,
         name: userProfile.name,
         role: userProfile.role,
         emailVerified: userProfile.emailVerified,
-        twoFactorEnabled: userProfile.twoFactorEnabled,
+        twoFactorEnabled: userProfile.twoFactorEnabled
       });
     } catch {
       // Session expired or invalid

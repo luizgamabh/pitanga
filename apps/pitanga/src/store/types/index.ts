@@ -30,7 +30,7 @@ export interface EpicDependencies {
         password: string,
         name?: string,
       ) => Promise<unknown>;
-      logout: () => Promise<void>;
+      logout: () => Promise<unknown>;
       getSession: () => Promise<unknown>;
       getProfile: () => Promise<unknown>;
       refreshToken: () => Promise<unknown>;

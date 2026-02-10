@@ -3,7 +3,7 @@
  *
  * @author Luiz Gama
  */
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, type Action } from '@reduxjs/toolkit';
 import { createEpicMiddleware } from 'redux-observable';
 import { authReducer } from './slices';
 import { rootEpic } from './epics';
@@ -11,9 +11,9 @@ import { EpicDependencies } from './types';
 
 // Create epic middleware with dependencies placeholder
 const epicMiddleware = createEpicMiddleware<
-  ReturnType<typeof store.dispatch>,
-  ReturnType<typeof store.dispatch>,
-  ReturnType<typeof store.getState>,
+  Action,
+  Action,
+  unknown,
   EpicDependencies
 >();
 
