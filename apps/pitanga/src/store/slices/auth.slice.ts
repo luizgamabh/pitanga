@@ -128,7 +128,7 @@ const authSlice = createSlice({
     },
 
     logoutSuccess: () => {
-      return initialState;
+      return { ...initialState, status: 'idle' as const };
     },
 
     logoutFailure: (state, action: PayloadAction<string>) => {
