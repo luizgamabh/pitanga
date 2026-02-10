@@ -15,12 +15,11 @@ import {
   IsLatitude,
   IsLongitude,
   IsArray,
-  ArrayMinSize,
   Min,
   Max,
 } from 'class-validator';
 import { PointOrientation } from '../enums/point.enum';
-import { PlaylistTransition } from '../enums/playlist.enum';
+
 
 export class CreatePointDto {
   @IsString()
