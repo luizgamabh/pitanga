@@ -75,28 +75,33 @@ Caso eu peça um plano da tarefa (quando for mais complexa), você deve criar no
 This is an Nx monorepo with two main applications:
 
 ### Apps
+
 - **pitanga** (`apps/pitanga`) - Next.js 16 frontend with React 19, App Router
 - **pitanga-api** (`apps/pitanga-api`) - NestJS 11 backend API, serves on `/api` prefix
 - **pitanga-e2e** (`apps/pitanga-e2e`) - Playwright e2e tests for the web app
 - **pitanga-api-e2e** (`apps/pitanga-api-e2e`) - Jest e2e tests for the API
 
 ### Key Configuration
+
 - TypeScript strict mode enabled with `nodenext` module resolution
 - SWC used for Jest transforms (faster than ts-jest for unit tests)
 - ESLint flat config with `@nx/enforce-module-boundaries` rule
 - Nx plugins auto-infer targets from project configuration files
 
 ### Ports
+
 - Web (Next.js): 3000
 - API (NestJS): 3333
 
 ## Databases
 
 The API uses two databases:
+
 - **PostgreSQL** (via Prisma) - Relational data (users, screens, playlists, media)
 - **MongoDB** (via Mongoose) - Analytics and logs (events, playbacks, metrics)
 
 ### Database Commands (yarn scripts)
+
 ```bash
 # Generate Prisma client (run after schema changes)
 yarn db:generate
@@ -120,6 +125,7 @@ yarn db:reset
 ### Prisma Workflow
 
 1. **First time setup:**
+
    ```bash
    # Configure .env with your database URL
    cp apps/pitanga-api/.env.example apps/pitanga-api/.env
@@ -131,6 +137,7 @@ yarn db:reset
    ```
 
 2. **After schema changes:**
+
    ```bash
    # Edit apps/pitanga-api/prisma/schema.prisma
    yarn db:migrate    # Creates migration and applies it
@@ -143,6 +150,7 @@ yarn db:reset
    ```
 
 ### Environment Variables
+
 ```bash
 # PostgreSQL - configure in apps/pitanga-api/.env
 DATABASE_URL="postgresql://user:password@localhost:5432/pitanga_db?schema=public"
@@ -152,6 +160,7 @@ MONGODB_URL="mongodb://user:password@localhost:27017/pitanga_db?authSource=pitan
 ```
 
 ### Schema Location
+
 - **Prisma schema:** `apps/pitanga-api/prisma/schema.prisma`
 - **Mongoose schemas:** `apps/pitanga-api/src/database/schemas/`
 
@@ -160,10 +169,12 @@ MONGODB_URL="mongodb://user:password@localhost:27017/pitanga_db?authSource=pitan
 Hosted on Hostinger VPS with Dokku. Each app has its own Dockerfile for production builds.
 
 ### Production URLs
+
 - **Web**: https://pitanga.digital
 - **API**: https://api.pitanga.digital
 
 ### Dokku Database Setup
+
 ```bash
 # SSH into server
 ssh dokku@your-server
@@ -189,12 +200,14 @@ dokku config:show pitanga-api
 ```
 
 ### Running Migrations in Production
+
 ```bash
 # After deploy, run migrations
 dokku run pitanga-api yarn prisma migrate deploy
 ```
 
 ### Docker Build (local test)
+
 ```bash
 # Build API image
 docker build -f apps/pitanga-api/Dockerfile -t pitanga-api .
@@ -202,3 +215,18 @@ docker build -f apps/pitanga-api/Dockerfile -t pitanga-api .
 # Build Web image
 docker build -f apps/pitanga/Dockerfile -t pitanga-web .
 ```
+
+<!-- nx configuration start-->
+<!-- Leave the start & end comments to automatically receive updates. -->
+
+# General Guidelines for working with Nx
+
+- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
+- You have access to the Nx MCP server and its tools, use them to help the user
+- When answering questions about the repository, use the `nx_workspace` tool first to gain an understanding of the workspace architecture where applicable.
+- When working in individual projects, use the `nx_project_details` mcp tool to analyze and understand the specific project structure and dependencies
+- For questions around nx configuration, best practices or if you're unsure, use the `nx_docs` tool to get relevant, up-to-date docs. Always use this instead of assuming things about nx configuration
+- If the user needs help with an Nx configuration or project graph error, use the `nx_workspace` tool to get any errors
+- For Nx plugin best practices, check `node_modules/@nx/<plugin>/PLUGIN.md`. Not all plugins have this file - proceed without it if unavailable.
+
+<!-- nx configuration end-->
