@@ -17,9 +17,9 @@ interface StoreProviderProps {
 }
 
 // Create API client instance
-const apiClient = new ApiClient(
-  process.env['NEXT_PUBLIC_API_URL'] || 'http://localhost:3333/api'
-);
+const apiClient = new ApiClient({
+  baseUrl: process.env['NEXT_PUBLIC_API_URL'] || 'http://localhost:3333/api',
+});
 
 export function StoreProvider({ children }: StoreProviderProps) {
   const initialized = useRef(false);
